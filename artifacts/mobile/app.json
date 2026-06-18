@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "طبيبك",
+    "slug": "mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "mobile",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0D7C8C"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.tabibak.mobile"
+    },
+    "android": {},
+    "web": {
+      "favicon": "./assets/images/icon.png"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "origin": "https://replit.com/"
+        }
+      ],
+      "expo-font",
+      "expo-web-browser"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
