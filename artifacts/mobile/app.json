@@ -1,23 +1,32 @@
 {
   "expo": {
-    "name": "اكسير",
-    "slug": "mobile",
+    "name": "إكسير",
+    "slug": "exir-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "mobile",
+    "scheme": "exir",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/icon.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#003F6D"
+      "backgroundColor": "#082D40"
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.akseer.mobile"
+      "bundleIdentifier": "com.exir.app",
+      "buildNumber": "1"
     },
-    "android": {},
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#082D40"
+      },
+      "package": "com.exir.app",
+      "versionCode": 1,
+      "permissions": []
+    },
     "web": {
       "favicon": "./assets/images/icon.png"
     },
@@ -34,6 +43,11 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": ""
+      }
     }
   }
 }
