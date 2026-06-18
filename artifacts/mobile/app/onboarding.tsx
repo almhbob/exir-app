@@ -292,9 +292,9 @@ export default function OnboardingScreen() {
           <Feather name="plus-circle" size={30} color="#FFF" />
         </View>
 
-        <Text style={styles.title}>طبيبك</Text>
+        <Text style={styles.title}>اكسير</Text>
         <Text style={styles.subtitle}>
-          منصة الرعاية الصحية المنزلية — طبيبك يحضر إليك أينما كنت
+          منصة الرعاية الصحية المنزلية — اكسير يحضر إليك أينما كنت
         </Text>
 
         <Text style={styles.sectionLabel}>أنا...</Text>

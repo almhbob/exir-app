@@ -342,7 +342,7 @@ export default function JobsScreen() {
               <View style={styles.heroBannerTop}>
                 <View style={styles.heroBadge}>
                   <Feather name="star" size={11} color={colors.accent} />
-                  <Text style={styles.heroBadgeText}>منصة طبيبك</Text>
+                  <Text style={styles.heroBadgeText}>منصة اكسير</Text>
                 </View>
               </View>
               <Text style={styles.heroBannerTitle}>

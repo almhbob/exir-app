@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "طبيبك",
+    "name": "اكسير",
     "slug": "mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -11,11 +11,11 @@
     "splash": {
       "image": "./assets/images/icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0D7C8C"
+      "backgroundColor": "#003F6D"
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.tabibak.mobile"
+      "bundleIdentifier": "com.akseer.mobile"
     },
     "android": {},
     "web": {

@@ -213,7 +213,7 @@ const MOCK_JOBS: JobListing[] = [
   {
     id: "j1",
     title: "طبيب عائلة زيارات منزلية",
-    facility: "منصة طبيبك",
+    facility: "منصة اكسير",
     location: "الرياض - جميع الأحياء",
     type: "freelance",
     specialty: "طب عام",
@@ -221,7 +221,7 @@ const MOCK_JOBS: JobListing[] = [
     posted: "منذ يومين",
     urgent: true,
     description:
-      "نبحث عن أطباء عامة للانضمام لمنصة طبيبك وتقديم خدمات الزيارات المنزلية.",
+      "نبحث عن أطباء عامة للانضمام لمنصة اكسير وتقديم خدمات الزيارات المنزلية.",
   },
   {
     id: "j2",
@@ -252,7 +252,7 @@ const MOCK_JOBS: JobListing[] = [
   {
     id: "j4",
     title: "طبيب أطفال - عيادة منزلية",
-    facility: "منصة طبيبك",
+    facility: "منصة اكسير",
     location: "الدمام - الخبر",
     type: "freelance",
     specialty: "طب الأطفال",
