@@ -75,7 +75,7 @@ export default function OnboardingScreen() {
       width: 64,
       height: 64,
       borderRadius: 20,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       alignItems: "center",
       justifyContent: "center",
       marginBottom: 24,

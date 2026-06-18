@@ -91,7 +91,7 @@ const MOCK_REQUESTS: Request[] = [
 ];
 
 const URGENCY_CONFIG = {
-  normal: { label: "عادي", color: "#0D7C8C", bg: "#E0F4F7" },
+  normal: { label: "عادي", color: "#259CF4", bg: "#E6F4FF" },
   urgent: { label: "عاجل", color: "#D97706", bg: "#FEF3C7" },
   emergency: { label: "طارئ", color: "#DC2626", bg: "#FEE2E2" },
 };
@@ -262,7 +262,7 @@ export default function RequestsScreen() {
     },
     acceptBtn: {
       flex: 1,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       borderRadius: colors.radius,
       paddingVertical: 12,
       alignItems: "center",
@@ -284,7 +284,7 @@ export default function RequestsScreen() {
       alignItems: "center",
     },
     amountBadge: {
-      backgroundColor: colors.successLight,
+      backgroundColor: colors.mintLight,
       paddingHorizontal: 10,
       paddingVertical: 4,
       borderRadius: 100,
@@ -294,7 +294,7 @@ export default function RequestsScreen() {
     amountText: {
       fontSize: 14,
       fontWeight: "700",
-      color: colors.success,
+      color: colors.dark,
       fontFamily: "Inter_700Bold",
     },
     empty: {

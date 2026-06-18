@@ -68,7 +68,7 @@ export default function DoctorProfile() {
       paddingTop: topPad + 12,
       paddingHorizontal: 20,
       paddingBottom: 28,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       alignItems: "center",
     },
     avatar: {
@@ -355,7 +355,7 @@ export default function DoctorProfile() {
             { icon: "star", label: "تقييماتي ومراجعات المرضى", color: "#D97706" },
             { icon: "file-text", label: "الوثائق والشهادات", color: "#7C3AED" },
             { icon: "credit-card", label: "بيانات الدفع والمصرف", color: "#059669" },
-            { icon: "shield", label: "الأمان والخصوصية", color: "#0D7C8C" },
+            { icon: "shield", label: "الأمان والخصوصية", color: "#259CF4" },
             { icon: "headphones", label: "الدعم الفني", color: "#64748B" },
           ].map((item) => (
             <Pressable

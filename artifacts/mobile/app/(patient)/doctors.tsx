@@ -219,7 +219,7 @@ export default function DoctorsScreen() {
       fontFamily: "Inter_400Regular",
     },
     bookBtn: {
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       paddingHorizontal: 20,
       paddingVertical: 10,
       borderRadius: colors.radius,
@@ -343,7 +343,7 @@ export default function DoctorsScreen() {
       fontFamily: "Inter_700Bold",
     },
     confirmBtn: {
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       borderRadius: colors.radius,
       paddingVertical: 15,
       alignItems: "center",
@@ -459,7 +459,7 @@ export default function DoctorsScreen() {
                 <Text
                   style={[
                     styles.availText,
-                    { color: item.available ? colors.success : colors.mutedForeground },
+                    { color: item.available ? colors.dark : colors.mutedForeground },
                   ]}
                 >
                   {item.available ? "متاح الآن" : "غير متاح"}
@@ -469,7 +469,7 @@ export default function DoctorsScreen() {
                     styles.availDot,
                     {
                       backgroundColor: item.available
-                        ? colors.success
+                        ? colors.mint
                         : colors.mutedForeground,
                     },
                   ]}

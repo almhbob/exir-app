@@ -105,7 +105,7 @@ export default function ScheduleScreen() {
   const todayVisits = MOCK_SCHEDULE.filter((s) => s.dayOffset === selectedDay);
 
   const STATUS_CONF: Record<string, { label: string; color: string; bg: string }> = {
-    confirmed: { label: "مؤكد", color: "#0D7C8C", bg: "#E0F4F7" },
+    confirmed: { label: "مؤكد", color: "#259CF4", bg: "#E6F4FF" },
     pending: { label: "في الانتظار", color: "#D97706", bg: "#FEF3C7" },
     completed: { label: "مكتمل", color: "#16A34A", bg: "#DCFCE7" },
   };
@@ -209,7 +209,7 @@ export default function ScheduleScreen() {
       width: 12,
       height: 12,
       borderRadius: 6,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       marginTop: 4,
     },
     vertLine: {

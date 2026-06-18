@@ -67,8 +67,8 @@ export default function DoctorDashboard() {
   const bottomPad = Platform.OS === "web" ? 34 : insets.bottom;
 
   const STATUS_CONF: Record<string, { label: string; color: string; bg: string }> = {
-    completed: { label: "مكتمل", color: colors.success, bg: colors.successLight },
-    active: { label: "جارٍ الآن", color: "#0D7C8C", bg: colors.primaryLight },
+    completed: { label: "مكتمل", color: colors.dark, bg: colors.mintLight },
+    active: { label: "جارٍ الآن", color: "#259CF4", bg: "#E6F4FF" },
     pending: { label: "في الانتظار", color: colors.warning, bg: colors.warningLight },
   };
 
@@ -78,7 +78,7 @@ export default function DoctorDashboard() {
       paddingTop: topPad + 16,
       paddingHorizontal: 20,
       paddingBottom: 24,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
     },
     headerRow: {
       flexDirection: "row",
@@ -439,7 +439,7 @@ export default function DoctorDashboard() {
                   <Text
                     style={[
                       styles.visitTime,
-                      { color: colors.success, fontFamily: "Inter_600SemiBold" },
+                      { color: colors.mint, fontFamily: "Inter_600SemiBold" },
                     ]}
                   >
                     {v.amount} ر.س

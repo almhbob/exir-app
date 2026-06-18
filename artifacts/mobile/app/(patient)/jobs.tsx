@@ -197,7 +197,7 @@ export default function JobsScreen() {
       fontFamily: "Inter_700Bold",
     },
     applyBtn: {
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       paddingHorizontal: 18,
       paddingVertical: 9,
       borderRadius: colors.radius,
@@ -210,7 +210,7 @@ export default function JobsScreen() {
     heroBanner: {
       margin: 16,
       marginBottom: 4,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       borderRadius: colors.radius + 4,
       padding: 20,
     },

@@ -42,7 +42,7 @@ export default function PatientHome() {
       paddingTop: topPad + 16,
       paddingHorizontal: 20,
       paddingBottom: 20,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
     },
     headerTop: {
       flexDirection: "row",
@@ -202,7 +202,7 @@ export default function PatientHome() {
       flexDirection: "row",
       alignItems: "center",
       gap: 4,
-      backgroundColor: colors.successLight,
+      backgroundColor: colors.mintLight,
       paddingHorizontal: 8,
       paddingVertical: 4,
       borderRadius: 100,
@@ -213,15 +213,15 @@ export default function PatientHome() {
       width: 6,
       height: 6,
       borderRadius: 3,
-      backgroundColor: colors.success,
+      backgroundColor: colors.mint,
     },
     availText: {
       fontSize: 11,
-      color: colors.success,
+      color: colors.dark,
       fontFamily: "Inter_600SemiBold",
     },
     bookBtn: {
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       borderRadius: colors.radius - 2,
       paddingVertical: 8,
       alignItems: "center",
@@ -233,7 +233,7 @@ export default function PatientHome() {
     },
     activeBanner: {
       margin: 20,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       borderRadius: colors.radius + 4,
       padding: 16,
       flexDirection: "row",
@@ -351,14 +351,14 @@ export default function PatientHome() {
                 style={[
                   styles.specialtyChip,
                   {
-                    backgroundColor: colors.primaryLight,
-                    borderColor: colors.primary + "30",
+                    backgroundColor: colors.accentLight,
+                    borderColor: colors.accent + "40",
                   },
                 ]}
                 onPress={() => router.push("/(patient)/doctors")}
               >
                 <Text
-                  style={[styles.specialtyText, { color: colors.primary }]}
+                  style={[styles.specialtyText, { color: colors.dark }]}
                 >
                   {sp.name}
                 </Text>

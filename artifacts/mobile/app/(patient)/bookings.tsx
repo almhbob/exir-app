@@ -20,7 +20,7 @@ const STATUS_CONFIG: Record<
   { label: string; color: string; bg: string; icon: string }
 > = {
   pending: { label: "في الانتظار", color: "#D97706", bg: "#FEF3C7", icon: "clock" },
-  confirmed: { label: "مؤكد", color: "#0D7C8C", bg: "#E0F4F7", icon: "check-circle" },
+  confirmed: { label: "مؤكد", color: "#259CF4", bg: "#E6F4FF", icon: "check-circle" },
   active: { label: "جارٍ الآن", color: "#16A34A", bg: "#DCFCE7", icon: "navigation" },
   completed: { label: "مكتمل", color: "#64748B", bg: "#F1F5F9", icon: "check" },
   cancelled: { label: "ملغي", color: "#DC2626", bg: "#FEE2E2", icon: "x-circle" },

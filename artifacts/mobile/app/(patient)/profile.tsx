@@ -62,7 +62,7 @@ export default function PatientProfile() {
       paddingTop: topPad + 12,
       paddingHorizontal: 20,
       paddingBottom: 24,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       alignItems: "center",
     },
     avatar: {
@@ -390,7 +390,7 @@ export default function PatientProfile() {
             { icon: "file-text", label: "سجلاتي الطبية", color: "#7C3AED" },
             { icon: "package", label: "طلبات الدواء", color: "#059669" },
             { icon: "star", label: "تقييماتي", color: "#D97706" },
-            { icon: "headphones", label: "الدعم والمساعدة", color: "#0D7C8C" },
+            { icon: "headphones", label: "الدعم والمساعدة", color: "#259CF4" },
           ].map((item) => (
             <Pressable
               key={item.label}

@@ -74,7 +74,7 @@ export default function EarningsScreen() {
     },
     earningsHero: {
       margin: 16,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       borderRadius: colors.radius + 4,
       padding: 20,
     },
@@ -188,7 +188,7 @@ export default function EarningsScreen() {
     },
     withdrawBtn: {
       margin: 16,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       borderRadius: colors.radius,
       paddingVertical: 14,
       alignItems: "center",
@@ -266,7 +266,7 @@ export default function EarningsScreen() {
       alignItems: "center",
     },
     applyBtn: {
-      backgroundColor: colors.primary,
+      backgroundColor: colors.dark,
       paddingHorizontal: 16,
       paddingVertical: 8,
       borderRadius: colors.radius,
@@ -279,7 +279,7 @@ export default function EarningsScreen() {
     salary: {
       fontSize: 14,
       fontWeight: "700",
-      color: colors.success,
+      color: colors.dark,
       fontFamily: "Inter_700Bold",
       textAlign: "right",
     },
