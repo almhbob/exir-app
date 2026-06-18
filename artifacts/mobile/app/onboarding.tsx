@@ -41,7 +41,11 @@ export default function OnboardingScreen() {
   async function handleContinue() {
     if (!selectedRole) return;
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    setStep("profile");
+    if (selectedRole === "doctor") {
+      router.push("/join-request");
+    } else {
+      setStep("profile");
+    }
   }
 
   async function handleStart() {

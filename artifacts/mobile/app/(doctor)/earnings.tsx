@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   Alert,
@@ -197,6 +198,42 @@ export default function EarningsScreen() {
       color: "#FFF",
       fontSize: 16,
       fontFamily: "Inter_700Bold",
+    },
+    joinBanner: {
+      backgroundColor: colors.dark,
+      borderRadius: colors.radius + 4,
+      padding: 16,
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 12,
+      marginBottom: 16,
+    },
+    joinBannerIcon: {
+      width: 44,
+      height: 44,
+      borderRadius: 13,
+      backgroundColor: "rgba(255,255,255,0.12)",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0,
+    },
+    joinBannerInfo: {
+      flex: 1,
+      alignItems: "flex-end",
+    },
+    joinBannerTitle: {
+      fontSize: 14,
+      fontWeight: "700",
+      color: "#FFF",
+      fontFamily: "Inter_700Bold",
+      textAlign: "right",
+      marginBottom: 3,
+    },
+    joinBannerSub: {
+      fontSize: 12,
+      color: "rgba(255,255,255,0.7)",
+      fontFamily: "Inter_400Regular",
+      textAlign: "right",
     },
     // Jobs section
     jobCard: {
@@ -408,6 +445,28 @@ export default function EarningsScreen() {
           data={jobs}
           keyExtractor={(j) => j.id}
           contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
+          ListHeaderComponent={
+            <Pressable
+              style={styles.joinBanner}
+              onPress={() => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                router.push("/join-request");
+              }}
+            >
+              <View style={styles.joinBannerIcon}>
+                <Feather name="user-plus" size={20} color={colors.accent} />
+              </View>
+              <View style={styles.joinBannerInfo}>
+                <Text style={styles.joinBannerTitle}>
+                  غير مسجل بعد؟ قدّم طلب الانضمام
+                </Text>
+                <Text style={styles.joinBannerSub}>
+                  طبيب · ممرض · صيدلي · مختبر · علاج طبيعي · مسعف
+                </Text>
+              </View>
+              <Feather name="arrow-left" size={18} color="rgba(255,255,255,0.8)" />
+            </Pressable>
+          }
           renderItem={({ item }) => (
             <View style={[styles.jobCard, item.urgent && styles.urgentJobCard]}>
               <View style={styles.jobTop}>

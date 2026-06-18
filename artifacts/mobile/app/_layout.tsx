@@ -30,6 +30,7 @@ function RootLayoutNav() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="onboarding" />
+      <Stack.Screen name="join-request" />
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="(patient)" />
       <Stack.Screen name="(doctor)" />

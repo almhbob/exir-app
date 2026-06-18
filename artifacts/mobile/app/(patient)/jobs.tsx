@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   Alert,
@@ -227,7 +228,62 @@ export default function JobsScreen() {
       color: "rgba(255,255,255,0.85)",
       fontFamily: "Inter_400Regular",
       textAlign: "right",
-      lineHeight: 20,
+      lineHeight: 22,
+      marginBottom: 14,
+    },
+    heroBannerTop: {
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      marginBottom: 10,
+    },
+    heroBadge: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 4,
+      backgroundColor: "rgba(255,255,255,0.15)",
+      paddingHorizontal: 10,
+      paddingVertical: 4,
+      borderRadius: 100,
+    },
+    heroBadgeText: {
+      fontSize: 11,
+      color: "rgba(255,255,255,0.9)",
+      fontFamily: "Inter_600SemiBold",
+    },
+    heroSpecialtiesRow: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 8,
+      marginBottom: 16,
+      justifyContent: "flex-end",
+    },
+    heroSpecialtyChip: {
+      backgroundColor: "rgba(255,255,255,0.15)",
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+      borderRadius: 100,
+      borderWidth: 1,
+      borderColor: "rgba(255,255,255,0.25)",
+    },
+    heroSpecialtyText: {
+      fontSize: 12,
+      color: "#FFF",
+      fontFamily: "Inter_600SemiBold",
+    },
+    heroJoinBtn: {
+      backgroundColor: colors.accent,
+      borderRadius: colors.radius,
+      paddingVertical: 13,
+      paddingHorizontal: 18,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+    },
+    heroJoinBtnText: {
+      fontSize: 15,
+      fontFamily: "Inter_700Bold",
+      color: colors.dark,
     },
     space: { height: 100 },
   });
@@ -283,13 +339,37 @@ export default function JobsScreen() {
         ListHeaderComponent={
           <View style={{ marginBottom: 4 }}>
             <View style={styles.heroBanner}>
+              <View style={styles.heroBannerTop}>
+                <View style={styles.heroBadge}>
+                  <Feather name="star" size={11} color={colors.accent} />
+                  <Text style={styles.heroBadgeText}>منصة طبيبك</Text>
+                </View>
+              </View>
               <Text style={styles.heroBannerTitle}>
-                انضم لمنصة طبيبك المهنية
+                انضم كمزود خدمة طبية
               </Text>
               <Text style={styles.heroBannerText}>
-                أكثر من 500 طبيب ومختص يعملون معنا. اعمل بحريتك الكاملة وحدد
-                وقتك وأسعارك.
+                أطباء · ممرضون · مختبرات · صيادلة · علاج طبيعي · مسعفون{"\n"}
+                اعمل بحريتك وحدد وقتك وأسعارك الخاصة
               </Text>
+              <View style={styles.heroSpecialtiesRow}>
+                {["طبيب", "ممرض", "صيدلي", "مختبر", "مسعف"].map((sp) => (
+                  <View key={sp} style={styles.heroSpecialtyChip}>
+                    <Text style={styles.heroSpecialtyText}>{sp}</Text>
+                  </View>
+                ))}
+              </View>
+              <Pressable
+                style={styles.heroJoinBtn}
+                onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                  router.push("/join-request");
+                }}
+              >
+                <Feather name="user-plus" size={16} color={colors.dark} />
+                <Text style={styles.heroJoinBtnText}>قدّم طلب الانضمام</Text>
+                <Feather name="arrow-left" size={14} color={colors.dark} />
+              </Pressable>
             </View>
           </View>
         }
