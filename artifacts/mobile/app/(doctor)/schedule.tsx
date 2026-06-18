@@ -106,7 +106,7 @@ export default function ScheduleScreen() {
   const todayVisits = MOCK_SCHEDULE.filter((s) => s.dayOffset === selectedDay);
 
   const STATUS_CONF: Record<string, { label: string; color: string; bg: string }> = {
-    confirmed: { label: "مؤكد", color: "#259CF4", bg: "#E6F4FF" },
+    confirmed: { label: "مؤكد", color: "#1E8070", bg: "#E6F4FF" },
     pending: { label: "في الانتظار", color: "#D97706", bg: "#FEF3C7" },
     completed: { label: "مكتمل", color: "#16A34A", bg: "#DCFCE7" },
   };
@@ -305,7 +305,7 @@ export default function ScheduleScreen() {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+        colors={["#082D40", "#0E4D62", "#1A7066"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.header}

@@ -24,7 +24,7 @@ const STATUS_CONFIG: Record<
   { label: string; color: string; bg: string; icon: string }
 > = {
   pending: { label: "في الانتظار", color: "#D97706", bg: "#FEF3C7", icon: "clock" },
-  confirmed: { label: "مؤكد", color: "#259CF4", bg: "#E6F4FF", icon: "check-circle" },
+  confirmed: { label: "مؤكد", color: "#1E8070", bg: "#E6F4FF", icon: "check-circle" },
   active: { label: "جارٍ الآن", color: "#16A34A", bg: "#DCFCE7", icon: "navigation" },
   completed: { label: "مكتمل", color: "#64748B", bg: "#F1F5F9", icon: "check" },
   cancelled: { label: "ملغي", color: "#DC2626", bg: "#FEE2E2", icon: "x-circle" },
@@ -99,7 +99,7 @@ export default function BookingsScreen() {
       backgroundColor: colors.card,
       borderRadius: colors.radius + 4,
       padding: 16,
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 3 },
       shadowOpacity: 0.07,
       shadowRadius: 10,
@@ -266,7 +266,7 @@ export default function BookingsScreen() {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+        colors={["#082D40", "#0E4D62", "#1A7066"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.header}

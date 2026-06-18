@@ -292,7 +292,7 @@ export default function OnlineConsultationScreen() {
       borderRadius: colors.radius + 2,
       padding: 14,
       alignItems: "center",
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.07,
       shadowRadius: 8,
@@ -317,7 +317,7 @@ export default function OnlineConsultationScreen() {
       backgroundColor: colors.card,
       borderRadius: colors.radius + 6,
       padding: 18,
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.09,
       shadowRadius: 14,
@@ -631,7 +631,7 @@ export default function OnlineConsultationScreen() {
     <View style={styles.container}>
       {/* Gradient Header */}
       <LinearGradient
-        colors={["#1A0533", "#4C1D95", "#0A5FA0"]}
+        colors={["#1A0533", "#4C1D95", "#1A7066"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.header}
@@ -900,7 +900,7 @@ export default function OnlineConsultationScreen() {
 
             <Pressable style={styles.confirmBtn} onPress={confirmBooking}>
               <LinearGradient
-                colors={["#4C1D95", "#7C3AED", "#259CF4"]}
+                colors={["#4C1D95", "#7C3AED", "#1E8070"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={[StyleSheet.absoluteFill, { borderRadius: colors.radius }]}

@@ -92,7 +92,7 @@ const MOCK_REQUESTS: Request[] = [
 ];
 
 const URGENCY_CONFIG = {
-  normal: { label: "عادي", color: "#259CF4", bg: "#E6F4FF" },
+  normal: { label: "عادي", color: "#1E8070", bg: "#E6F4FF" },
   urgent: { label: "عاجل", color: "#D97706", bg: "#FEF3C7" },
   emergency: { label: "طارئ", color: "#DC2626", bg: "#FEE2E2" },
 };
@@ -352,7 +352,7 @@ export default function RequestsScreen() {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+        colors={["#082D40", "#0E4D62", "#1A7066"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.header}

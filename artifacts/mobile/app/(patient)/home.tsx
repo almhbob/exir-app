@@ -219,7 +219,7 @@ export default function PatientHome() {
       paddingHorizontal: 8,
       alignItems: "center",
       gap: 8,
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 3 },
       shadowOpacity: 0.07,
       shadowRadius: 10,
@@ -255,7 +255,7 @@ export default function PatientHome() {
       borderRadius: 22,
       padding: 16,
       marginRight: 12,
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 5 },
       shadowOpacity: 0.1,
       shadowRadius: 16,
@@ -325,7 +325,7 @@ export default function PatientHome() {
 
         {/* ── Gradient Header ── */}
         <LinearGradient
-          colors={["#001629", "#003F6D", "#0A5FA0"]}
+          colors={["#051C2C", "#0E4D62", "#1A7066"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.header}
@@ -398,7 +398,7 @@ export default function PatientHome() {
         {activeBooking && (
           <Pressable style={styles.activeBanner}>
             <LinearGradient
-              colors={["#259CF4", "#1DD0F8"]}
+              colors={["#1E8070", "#48B86A"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               style={StyleSheet.absoluteFill}
@@ -533,7 +533,7 @@ export default function PatientHome() {
                   }}
                 >
                   <LinearGradient
-                    colors={["#003F6D", "#0A5FA0"]}
+                    colors={["#0E4D62", "#1A7066"]}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 0 }}
                     style={[StyleSheet.absoluteFill, { borderRadius: 12 }]}

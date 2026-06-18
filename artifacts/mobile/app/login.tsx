@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
+  Image,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -99,16 +100,10 @@ export default function LoginScreen() {
       margin: 20, alignSelf: "flex-end",
     },
     hero: { paddingHorizontal: 28, paddingBottom: 40, paddingTop: 10 },
-    logoBox: {
-      width: 72, height: 72, borderRadius: 22,
-      backgroundColor: "rgba(255,255,255,0.14)",
-      borderWidth: 1.5, borderColor: "rgba(255,255,255,0.25)",
-      alignItems: "center", justifyContent: "center",
-      marginBottom: 24, alignSelf: "flex-end",
-    },
-    logoText: {
-      fontSize: 30, fontWeight: "700",
-      color: "#FFF", fontFamily: "Inter_700Bold",
+    logoImg: {
+      width: 160, height: 130,
+      alignSelf: "center",
+      marginBottom: 16,
     },
     title: {
       fontSize: 28, fontWeight: "700",
@@ -244,7 +239,7 @@ export default function LoginScreen() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <LinearGradient
-        colors={["#001629", "#003F6D", "#0A5FA0"]}
+        colors={["#051C2C", "#0E4D62", "#1A7066"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.gradient}
@@ -256,9 +251,11 @@ export default function LoginScreen() {
         )}
 
         <View style={styles.hero}>
-          <View style={styles.logoBox}>
-            <Text style={styles.logoText}>💊</Text>
-          </View>
+          <Image
+            source={require("../assets/images/logo_transparent.png")}
+            style={styles.logoImg}
+            resizeMode="contain"
+          />
           <Text style={styles.title}>
             {step === "phone" ? "أهلاً بك في اكسير" : "تحقق من رقمك"}
           </Text>
@@ -297,7 +294,7 @@ export default function LoginScreen() {
 
               <Pressable style={styles.btn} onPress={handlePhoneSubmit}>
                 <LinearGradient
-                  colors={["#003F6D", "#0A5FA0", "#259CF4"]}
+                  colors={["#0E4D62", "#1A7066", "#1E8070"]}
                   start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                   style={[StyleSheet.absoluteFill, { borderRadius: 16 }]}
                 />

@@ -158,7 +158,7 @@ export default function PatientProfile() {
       backgroundColor: colors.card,
       borderRadius: colors.radius + 6,
       marginTop: -20,
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.1,
       shadowRadius: 16,
@@ -191,7 +191,7 @@ export default function PatientProfile() {
       backgroundColor: colors.card,
       borderRadius: colors.radius + 4,
       overflow: "hidden",
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.06,
       shadowRadius: 10,
@@ -292,7 +292,7 @@ export default function PatientProfile() {
       padding: 15,
       marginBottom: 10,
       gap: 12,
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.05,
       shadowRadius: 8,
@@ -337,7 +337,7 @@ export default function PatientProfile() {
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <LinearGradient
-          colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+          colors={["#082D40", "#0E4D62", "#1A7066"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.header}
@@ -476,7 +476,7 @@ export default function PatientProfile() {
           <Text style={styles.sectionTitle}>الخدمات</Text>
           {[
             { icon: "file-text", label: "سجلاتي الطبية", color: "#7C3AED", route: "/(patient)/records" },
-            { icon: "settings", label: "الإعدادات", color: "#259CF4", route: "/settings" },
+            { icon: "settings", label: "الإعدادات", color: "#1E8070", route: "/settings" },
             { icon: "star", label: "تقييماتي", color: "#D97706" },
             { icon: "headphones", label: "الدعم والمساعدة", color: "#059669" },
           ].map((item) => (

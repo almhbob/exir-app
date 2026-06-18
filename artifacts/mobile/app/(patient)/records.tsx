@@ -435,7 +435,7 @@ export default function MedicalRecordsScreen() {
     <View style={styles.container}>
       {/* Header */}
       <LinearGradient
-        colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+        colors={["#082D40", "#0E4D62", "#1A7066"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.header}

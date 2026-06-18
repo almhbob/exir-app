@@ -384,7 +384,7 @@ export default function EarningsScreen() {
       padding: 16,
       marginBottom: 10,
       borderLeftWidth: 4,
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 3 },
       shadowOpacity: 0.07,
       shadowRadius: 10,
@@ -483,7 +483,7 @@ export default function EarningsScreen() {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+        colors={["#082D40", "#0E4D62", "#1A7066"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.header}
@@ -530,7 +530,7 @@ export default function EarningsScreen() {
       {tab === "earnings" ? (
         <ScrollView showsVerticalScrollIndicator={false}>
           <LinearGradient
-            colors={["#003F6D", "#0A6BAD"]}
+            colors={["#0E4D62", "#0A6BAD"]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.earningsHero}
@@ -574,7 +574,7 @@ export default function EarningsScreen() {
                 doctorPct: 80,
                 platformPct: 20,
                 exampleTotal: 180,
-                color: "#259CF4",
+                color: "#1E8070",
                 bg: "#EFF9FF",
               },
               {

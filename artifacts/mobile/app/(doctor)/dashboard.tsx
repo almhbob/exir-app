@@ -69,7 +69,7 @@ export default function DoctorDashboard() {
 
   const STATUS_CONF: Record<string, { label: string; color: string; bg: string }> = {
     completed: { label: "مكتمل", color: colors.dark, bg: colors.mintLight },
-    active: { label: "جارٍ الآن", color: "#259CF4", bg: "#E6F4FF" },
+    active: { label: "جارٍ الآن", color: "#1E8070", bg: "#E6F4FF" },
     pending: { label: "في الانتظار", color: colors.warning, bg: colors.warningLight },
   };
 
@@ -181,7 +181,7 @@ export default function DoctorDashboard() {
       backgroundColor: colors.card,
       borderRadius: colors.radius + 4,
       padding: 16,
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 3 },
       shadowOpacity: 0.08,
       shadowRadius: 12,
@@ -241,7 +241,7 @@ export default function DoctorDashboard() {
       alignItems: "center",
       gap: 12,
       marginBottom: 10,
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.06,
       shadowRadius: 8,
@@ -369,7 +369,7 @@ export default function DoctorDashboard() {
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <LinearGradient
-          colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+          colors={["#082D40", "#0E4D62", "#1A7066"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.header}

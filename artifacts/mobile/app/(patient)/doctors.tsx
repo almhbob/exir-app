@@ -150,7 +150,7 @@ export default function DoctorsScreen() {
       backgroundColor: colors.card,
       borderRadius: colors.radius + 4,
       padding: 16,
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 3 },
       shadowOpacity: 0.08,
       shadowRadius: 12,
@@ -390,7 +390,7 @@ export default function DoctorsScreen() {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+        colors={["#082D40", "#0E4D62", "#1A7066"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.header}

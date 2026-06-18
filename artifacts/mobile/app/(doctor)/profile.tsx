@@ -181,7 +181,7 @@ export default function DoctorProfile() {
       borderRadius: colors.radius + 6,
       marginTop: -22,
       overflow: "hidden",
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.1,
       shadowRadius: 16,
@@ -335,7 +335,7 @@ export default function DoctorProfile() {
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <LinearGradient
-          colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+          colors={["#082D40", "#0E4D62", "#1A7066"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.header}
@@ -438,7 +438,7 @@ export default function DoctorProfile() {
             { icon: "star", label: "تقييماتي ومراجعات المرضى", color: "#D97706" },
             { icon: "file-text", label: "الوثائق والشهادات", color: "#7C3AED" },
             { icon: "credit-card", label: "بيانات الدفع والمصرف", color: "#059669" },
-            { icon: "shield", label: "الأمان والخصوصية", color: "#259CF4" },
+            { icon: "shield", label: "الأمان والخصوصية", color: "#1E8070" },
             { icon: "headphones", label: "الدعم الفني", color: "#64748B" },
           ].map((item) => (
             <Pressable

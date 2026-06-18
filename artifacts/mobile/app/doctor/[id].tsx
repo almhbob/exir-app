@@ -228,7 +228,7 @@ export default function DoctorDetailScreen() {
     reviewCard: {
       backgroundColor: colors.card, borderRadius: 16,
       padding: 16, marginBottom: 10,
-      shadowColor: "#003F6D",
+      shadowColor: "#0E4D62",
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.06, shadowRadius: 8, elevation: 2,
     },
@@ -278,7 +278,7 @@ export default function DoctorDetailScreen() {
     <View style={styles.container}>
       {/* Hero */}
       <LinearGradient
-        colors={["#001629", "#003F6D", "#0A5FA0"]}
+        colors={["#051C2C", "#0E4D62", "#1A7066"]}
         start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
         style={styles.header}
       >
@@ -464,7 +464,7 @@ export default function DoctorDetailScreen() {
           }}
         >
           <LinearGradient
-            colors={["#003F6D", "#0A5FA0", "#259CF4"]}
+            colors={["#0E4D62", "#1A7066", "#1E8070"]}
             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
             style={[StyleSheet.absoluteFill, { borderRadius: 16 }]}
           />

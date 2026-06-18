@@ -5,6 +5,7 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   Animated,
+  Image,
   Platform,
   Pressable,
   ScrollView,
@@ -110,11 +111,11 @@ export default function OnboardingScreen() {
       justifyContent: "center",
       marginBottom: 28,
     },
-    logoText: {
-      fontSize: 26,
-      fontWeight: "700",
-      color: "#FFF",
-      fontFamily: "Inter_700Bold",
+    logoImg: {
+      width: 150,
+      height: 120,
+      alignSelf: "center",
+      marginBottom: 20,
     },
     title: {
       fontSize: 34,
@@ -247,7 +248,7 @@ export default function OnboardingScreen() {
     return (
       <View style={styles.flex}>
         <LinearGradient
-          colors={["#001F3F", "#003F6D", "#0A5FA0"]}
+          colors={["#001F3F", "#0E4D62", "#1A7066"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.bg}
@@ -339,7 +340,7 @@ export default function OnboardingScreen() {
   return (
     <View style={styles.flex}>
       <LinearGradient
-        colors={["#001F3F", "#003F6D", "#0A5FA0"]}
+        colors={["#001F3F", "#0E4D62", "#1A7066"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.bg}
@@ -351,9 +352,11 @@ export default function OnboardingScreen() {
         </View>
         <ScrollView style={styles.scroll}>
           <View style={styles.content}>
-            <View style={styles.logoBox}>
-              <Feather name="plus-circle" size={30} color="#FFF" />
-            </View>
+            <Image
+              source={require("../assets/images/logo_transparent.png")}
+              style={styles.logoImg}
+              resizeMode="contain"
+            />
 
             <Text style={styles.title}>اكسير</Text>
             <Text style={styles.subtitle}>
