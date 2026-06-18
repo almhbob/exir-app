@@ -133,6 +133,13 @@ function ClassicPatientTabs() {
             ),
         }}
       />
+      <Tabs.Screen
+        name="records"
+        options={{
+          title: "سجلاتي",
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

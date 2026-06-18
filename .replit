@@ -36,3 +36,4 @@ externalPort = 80
 [userenv.shared]
 CLOUDINARY_CLOUD_NAME = "dfyzdxupp"
 EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME = "dfyzdxupp"
+EXPO_PUBLIC_CLOUDINARY_UPLOAD_PRESET = "Elixir"

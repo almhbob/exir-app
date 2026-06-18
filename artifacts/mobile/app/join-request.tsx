@@ -17,6 +17,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/context/AppContext";
 import { useColors } from "@/hooks/useColors";
+import { uploadToCloudinary, isConfigured } from "@/lib/cloudinary";
 
 interface Specialty {
   id: string;
@@ -96,7 +97,10 @@ const DISCLAIMER_CLAUSES = [
 interface UploadedDoc {
   name: string;
   uri?: string;
-  status: "uploaded" | "pending";
+  cloudinaryUrl?: string;
+  publicId?: string;
+  status: "uploading" | "uploaded" | "error" | "pending";
+  progress?: number;
 }
 
 export default function JoinRequestScreen() {
@@ -151,26 +155,55 @@ export default function JoinRequestScreen() {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        quality: 0.8,
+        quality: 0.85,
         allowsEditing: false,
       });
-      if (!result.canceled && result.assets[0]) {
+      if (result.canceled || !result.assets[0]) return;
+
+      const uri = result.assets[0].uri;
+
+      setUploadedDocs((prev) => ({
+        ...prev,
+        [docName]: { name: docName, uri, status: "uploading", progress: 0 },
+      }));
+
+      const tick = setInterval(() => {
+        setUploadedDocs((prev) => {
+          const curr = prev[docName];
+          if (!curr || curr.status !== "uploading") return prev;
+          return {
+            ...prev,
+            [docName]: { ...curr, progress: Math.min((curr.progress ?? 0) + 15, 88) },
+          };
+        });
+      }, 200);
+
+      try {
+        const uploaded = await uploadToCloudinary(uri, "akseer/documents");
+        clearInterval(tick);
         setUploadedDocs((prev) => ({
           ...prev,
           [docName]: {
             name: docName,
-            uri: result.assets[0].uri,
+            uri,
+            cloudinaryUrl: uploaded.secureUrl,
+            publicId: uploaded.publicId,
             status: "uploaded",
+            progress: 100,
           },
         }));
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      } catch {
+        clearInterval(tick);
+        setUploadedDocs((prev) => ({
+          ...prev,
+          [docName]: { name: docName, uri, status: "error" },
+        }));
+        Alert.alert("خطأ في الرفع", "تعذّر رفع المستند، يرجى المحاولة مجدداً.");
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       }
     } catch {
-      setUploadedDocs((prev) => ({
-        ...prev,
-        [docName]: { name: docName, status: "uploaded" },
-      }));
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      /* user cancelled */
     }
   }
 
@@ -874,14 +907,17 @@ export default function JoinRequestScreen() {
 
             {requiredDocs.map((doc) => {
               const uploaded = uploadedDocs[doc];
+              const isUploading = uploaded?.status === "uploading";
+              const isDone = uploaded?.status === "uploaded";
+              const isError = uploaded?.status === "error";
               return (
                 <View
                   key={doc}
                   style={[
                     styles.docCard,
                     {
-                      backgroundColor: uploaded ? colors.mintLight : colors.card,
-                      borderColor: uploaded ? colors.mint : colors.border,
+                      backgroundColor: isDone ? colors.mintLight : isError ? "#FEF2F2" : colors.card,
+                      borderColor: isDone ? colors.mint : isError ? "#FCA5A5" : isUploading ? colors.primary : colors.border,
                     },
                   ]}
                 >
@@ -889,51 +925,63 @@ export default function JoinRequestScreen() {
                     style={[
                       styles.docIconBox,
                       {
-                        backgroundColor: uploaded
+                        backgroundColor: isDone
                           ? colors.mint + "30"
+                          : isError
+                          ? "#FEE2E2"
                           : colors.muted,
                       },
                     ]}
                   >
                     <Feather
-                      name={uploaded ? "check-circle" : "file"}
+                      name={isDone ? "check-circle" : isError ? "alert-circle" : isUploading ? "upload-cloud" : "file"}
                       size={22}
-                      color={uploaded ? colors.dark : colors.mutedForeground}
+                      color={isDone ? colors.dark : isError ? "#DC2626" : isUploading ? colors.primary : colors.mutedForeground}
                     />
                   </View>
-                  <View style={styles.docInfo}>
+                  <View style={[styles.docInfo, { flex: 1 }]}>
                     <Text style={styles.docName}>{doc}</Text>
-                    <Text
-                      style={[
-                        styles.docStatus,
-                        {
-                          color: uploaded ? colors.dark : colors.mutedForeground,
-                        },
-                      ]}
-                    >
-                      {uploaded ? "تم الرفع بنجاح" : "لم يُرفع بعد"}
-                    </Text>
+                    {isUploading ? (
+                      <View style={{ marginTop: 6 }}>
+                        <View style={{ height: 4, backgroundColor: colors.border, borderRadius: 2, overflow: "hidden" }}>
+                          <View style={{ height: 4, width: `${uploaded?.progress ?? 0}%`, backgroundColor: colors.primary, borderRadius: 2 }} />
+                        </View>
+                        <Text style={[styles.docStatus, { color: colors.primary, marginTop: 2 }]}>
+                          {uploaded?.progress ?? 0}% — جارٍ الرفع...
+                        </Text>
+                      </View>
+                    ) : (
+                      <Text
+                        style={[
+                          styles.docStatus,
+                          {
+                            color: isDone ? colors.dark : isError ? "#DC2626" : colors.mutedForeground,
+                          },
+                        ]}
+                      >
+                        {isDone ? "✓ تم الرفع على Cloudinary" : isError ? "فشل الرفع — حاول مجدداً" : "لم يُرفع بعد"}
+                      </Text>
+                    )}
                   </View>
                   <Pressable
                     style={[
                       styles.docActionBtn,
                       {
-                        backgroundColor: uploaded
-                          ? colors.muted
-                          : colors.primary,
+                        backgroundColor: isDone ? colors.muted : isUploading ? colors.muted : isError ? "#FEE2E2" : colors.primary,
                       },
                     ]}
-                    onPress={() => pickDocument(doc)}
+                    onPress={() => !isUploading && pickDocument(doc)}
+                    disabled={isUploading}
                   >
                     <Text
                       style={[
                         styles.docActionText,
                         {
-                          color: uploaded ? colors.mutedForeground : "#FFF",
+                          color: isDone ? colors.mutedForeground : isUploading ? colors.mutedForeground : isError ? "#DC2626" : "#FFF",
                         },
                       ]}
                     >
-                      {uploaded ? "تغيير" : "رفع"}
+                      {isDone ? "تغيير" : isUploading ? "..." : isError ? "إعادة" : "رفع"}
                     </Text>
                   </Pressable>
                 </View>
@@ -948,14 +996,17 @@ export default function JoinRequestScreen() {
 
             {optionalDocs.map((doc) => {
               const uploaded = uploadedDocs[doc];
+              const isUploading = uploaded?.status === "uploading";
+              const isDone = uploaded?.status === "uploaded";
+              const isError = uploaded?.status === "error";
               return (
                 <View
                   key={doc}
                   style={[
                     styles.docCard,
                     {
-                      backgroundColor: uploaded ? colors.mintLight : colors.card,
-                      borderColor: uploaded ? colors.mint : colors.border,
+                      backgroundColor: isDone ? colors.mintLight : colors.card,
+                      borderColor: isDone ? colors.mint : isUploading ? colors.primary : colors.border,
                       borderStyle: "dashed",
                     },
                   ]}
@@ -963,39 +1014,47 @@ export default function JoinRequestScreen() {
                   <View
                     style={[
                       styles.docIconBox,
-                      { backgroundColor: colors.muted },
+                      { backgroundColor: isDone ? colors.mint + "30" : colors.muted },
                     ]}
                   >
                     <Feather
-                      name={uploaded ? "check-circle" : "plus"}
+                      name={isDone ? "check-circle" : isUploading ? "upload-cloud" : "plus"}
                       size={22}
-                      color={
-                        uploaded ? colors.dark : colors.mutedForeground
-                      }
+                      color={isDone ? colors.dark : isUploading ? colors.primary : colors.mutedForeground}
                     />
                   </View>
-                  <View style={styles.docInfo}>
+                  <View style={[styles.docInfo, { flex: 1 }]}>
                     <Text style={styles.docName}>{doc}</Text>
-                    <Text
-                      style={[styles.docStatus, { color: colors.mutedForeground }]}
-                    >
-                      {uploaded ? "تم الرفع" : "اختياري"}
-                    </Text>
+                    {isUploading ? (
+                      <View style={{ marginTop: 6 }}>
+                        <View style={{ height: 4, backgroundColor: colors.border, borderRadius: 2, overflow: "hidden" }}>
+                          <View style={{ height: 4, width: `${uploaded?.progress ?? 0}%`, backgroundColor: colors.primary, borderRadius: 2 }} />
+                        </View>
+                        <Text style={[styles.docStatus, { color: colors.primary, marginTop: 2 }]}>
+                          {uploaded?.progress ?? 0}%
+                        </Text>
+                      </View>
+                    ) : (
+                      <Text style={[styles.docStatus, { color: isDone ? colors.dark : isError ? "#DC2626" : colors.mutedForeground }]}>
+                        {isDone ? "✓ تم الرفع على Cloudinary" : isError ? "فشل الرفع" : "اختياري"}
+                      </Text>
+                    )}
                   </View>
                   <Pressable
                     style={[
                       styles.docActionBtn,
-                      { backgroundColor: colors.muted },
+                      { backgroundColor: isDone ? colors.muted : isUploading ? colors.muted : colors.primaryLight },
                     ]}
-                    onPress={() => pickDocument(doc)}
+                    onPress={() => !isUploading && pickDocument(doc)}
+                    disabled={isUploading}
                   >
                     <Text
                       style={[
                         styles.docActionText,
-                        { color: colors.mutedForeground },
+                        { color: isDone ? colors.mutedForeground : isUploading ? colors.mutedForeground : colors.primary },
                       ]}
                     >
-                      {uploaded ? "تغيير" : "إضافة"}
+                      {isDone ? "تغيير" : isUploading ? "..." : isError ? "إعادة" : "إضافة"}
                     </Text>
                   </Pressable>
                 </View>

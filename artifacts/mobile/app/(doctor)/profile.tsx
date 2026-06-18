@@ -1,9 +1,11 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   Alert,
+  Image,
   Platform,
   Pressable,
   ScrollView,
@@ -16,6 +18,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/context/AppContext";
 import { useColors } from "@/hooks/useColors";
+import { uploadToCloudinary, getAvatarUrl } from "@/lib/cloudinary";
 
 const MOCK_STATS = {
   totalVisits: 312,
@@ -34,6 +37,7 @@ export default function DoctorProfile() {
   const [specialty, setSpecialty] = useState(userProfile.specialty || "");
   const [experience, setExperience] = useState(userProfile.experience || "");
   const [license, setLicense] = useState(userProfile.licenseNumber || "");
+  const [avatarUploading, setAvatarUploading] = useState(false);
 
   const topPad = Platform.OS === "web" ? 67 : insets.top;
   const bottomPad = Platform.OS === "web" ? 34 : insets.bottom;
@@ -46,6 +50,27 @@ export default function DoctorProfile() {
     await setUserProfile({ name, phone, specialty, experience, licenseNumber: license });
     setEditing(false);
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+  }
+
+  async function handleAvatarUpload() {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.85,
+      });
+      if (result.canceled || !result.assets[0]) return;
+      setAvatarUploading(true);
+      const uploaded = await uploadToCloudinary(result.assets[0].uri, "akseer/avatars");
+      await setUserProfile({ avatarUrl: uploaded.secureUrl, avatarPublicId: uploaded.publicId });
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } catch {
+      Alert.alert("خطأ", "تعذّر رفع الصورة، حاول مجدداً.");
+    } finally {
+      setAvatarUploading(false);
+    }
   }
 
   function handleLogout() {
@@ -78,9 +103,22 @@ export default function DoctorProfile() {
       backgroundColor: "rgba(255,255,255,0.25)",
       alignItems: "center",
       justifyContent: "center",
-      marginBottom: 12,
+      marginBottom: 4,
       borderWidth: 3,
       borderColor: "rgba(255,255,255,0.4)",
+      overflow: "hidden",
+    },
+    avatarCamBtn: {
+      width: 28,
+      height: 28,
+      borderRadius: 14,
+      backgroundColor: colors.accent,
+      alignItems: "center",
+      justifyContent: "center",
+      alignSelf: "center",
+      marginBottom: 10,
+      borderWidth: 2,
+      borderColor: colors.dark,
     },
     avatarText: {
       fontSize: 34,
@@ -275,9 +313,25 @@ export default function DoctorProfile() {
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>{initials}</Text>
-          </View>
+          <Pressable onPress={handleAvatarUpload} disabled={avatarUploading}>
+            <View style={styles.avatar}>
+              {userProfile.avatarUrl ? (
+                <Image
+                  source={{ uri: userProfile.avatarUrl }}
+                  style={{ width: 96, height: 96, borderRadius: 48 }}
+                />
+              ) : (
+                <Text style={styles.avatarText}>{initials}</Text>
+              )}
+            </View>
+            <View style={styles.avatarCamBtn}>
+              {avatarUploading ? (
+                <Feather name="loader" size={13} color="#FFF" />
+              ) : (
+                <Feather name="camera" size={13} color="#FFF" />
+              )}
+            </View>
+          </Pressable>
           <Text style={styles.docName}>
             {name ? `د. ${name}` : "الطبيب"}
           </Text>

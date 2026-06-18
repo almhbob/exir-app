@@ -1,9 +1,11 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   Alert,
+  Image,
   Platform,
   Pressable,
   ScrollView,
@@ -16,6 +18,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/context/AppContext";
 import { useColors } from "@/hooks/useColors";
+import { uploadToCloudinary, getAvatarUrl } from "@/lib/cloudinary";
 
 const BLOOD_TYPES = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
@@ -29,6 +32,7 @@ export default function PatientProfile() {
   const [address, setAddress] = useState(userProfile.address);
   const [age, setAge] = useState(userProfile.age);
   const [bloodType, setBloodType] = useState(userProfile.bloodType);
+  const [avatarUploading, setAvatarUploading] = useState(false);
 
   const topPad = Platform.OS === "web" ? 67 : insets.top;
   const bottomPad = Platform.OS === "web" ? 34 : insets.bottom;
@@ -39,6 +43,27 @@ export default function PatientProfile() {
     await setUserProfile({ name, phone, address, age, bloodType });
     setEditing(false);
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+  }
+
+  async function handleAvatarUpload() {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.8,
+      });
+      if (result.canceled || !result.assets[0]) return;
+      setAvatarUploading(true);
+      const uploaded = await uploadToCloudinary(result.assets[0].uri, "akseer/avatars");
+      await setUserProfile({ avatarUrl: uploaded.secureUrl, avatarPublicId: uploaded.publicId });
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } catch {
+      Alert.alert("خطأ", "تعذّر رفع الصورة، حاول مجدداً.");
+    } finally {
+      setAvatarUploading(false);
+    }
   }
 
   function handleLogout() {
@@ -72,7 +97,20 @@ export default function PatientProfile() {
       backgroundColor: "rgba(255,255,255,0.25)",
       alignItems: "center",
       justifyContent: "center",
-      marginBottom: 12,
+      marginBottom: 4,
+      overflow: "hidden",
+    },
+    avatarCamBtn: {
+      width: 26,
+      height: 26,
+      borderRadius: 13,
+      backgroundColor: colors.primary,
+      alignItems: "center",
+      justifyContent: "center",
+      alignSelf: "center",
+      marginBottom: 10,
+      borderWidth: 2,
+      borderColor: colors.dark,
     },
     avatarText: {
       fontSize: 32,
@@ -97,13 +135,12 @@ export default function PatientProfile() {
       justifyContent: "center",
       gap: 32,
       paddingVertical: 16,
-      marginHorizontal: 16,
+      marginHorizontal: 20,
       backgroundColor: colors.card,
       borderRadius: colors.radius + 4,
       marginTop: -1,
       borderWidth: 1,
       borderColor: colors.border,
-      marginHorizontal: 20,
     },
     stat: { alignItems: "center" },
     statValue: {
@@ -272,9 +309,25 @@ export default function PatientProfile() {
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>{initials}</Text>
-          </View>
+          <Pressable onPress={handleAvatarUpload} disabled={avatarUploading}>
+            <View style={styles.avatar}>
+              {userProfile.avatarUrl ? (
+                <Image
+                  source={{ uri: userProfile.avatarUrl }}
+                  style={{ width: 88, height: 88, borderRadius: 44 }}
+                />
+              ) : (
+                <Text style={styles.avatarText}>{initials}</Text>
+              )}
+            </View>
+            <View style={styles.avatarCamBtn}>
+              {avatarUploading ? (
+                <Feather name="loader" size={12} color="#FFF" />
+              ) : (
+                <Feather name="camera" size={12} color="#FFF" />
+              )}
+            </View>
+          </Pressable>
           <Text style={styles.userName}>{userProfile.name || "المريض"}</Text>
           <Text style={styles.userPhone}>{userProfile.phone || "رقم الجوال"}</Text>
         </View>
@@ -387,7 +440,7 @@ export default function PatientProfile() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>الخدمات</Text>
           {[
-            { icon: "file-text", label: "سجلاتي الطبية", color: "#7C3AED" },
+            { icon: "file-text", label: "سجلاتي الطبية", color: "#7C3AED", route: "/(patient)/records" },
             { icon: "package", label: "طلبات الدواء", color: "#059669" },
             { icon: "star", label: "تقييماتي", color: "#D97706" },
             { icon: "headphones", label: "الدعم والمساعدة", color: "#259CF4" },
@@ -395,7 +448,10 @@ export default function PatientProfile() {
             <Pressable
               key={item.label}
               style={styles.menuItem}
-              onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
+              onPress={() => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                if ("route" in item && item.route) router.push(item.route as any);
+              }}
             >
               <Feather name="chevron-left" size={18} color={colors.mutedForeground} />
               <Text style={styles.menuItemText}>{item.label}</Text>

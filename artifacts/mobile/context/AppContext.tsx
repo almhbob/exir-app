@@ -46,6 +46,16 @@ export interface JobListing {
   description: string;
 }
 
+export interface MedicalResult {
+  id: string;
+  title: string;
+  category: "lab" | "xray" | "prescription" | "report" | "other";
+  cloudinaryUrl: string;
+  publicId: string;
+  uploadedAt: string;
+  notes?: string;
+}
+
 export interface UserProfile {
   name: string;
   phone: string;
@@ -55,6 +65,9 @@ export interface UserProfile {
   specialty?: string;
   experience?: string;
   licenseNumber?: string;
+  avatarUrl?: string;
+  avatarPublicId?: string;
+  medicalResults?: MedicalResult[];
 }
 
 interface AppContextType {
