@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import {
   Platform,
@@ -77,8 +78,26 @@ export default function DoctorDashboard() {
     header: {
       paddingTop: topPad + 16,
       paddingHorizontal: 20,
-      paddingBottom: 24,
-      backgroundColor: colors.dark,
+      paddingBottom: 28,
+      overflow: "hidden",
+    },
+    headerOrb1: {
+      position: "absolute",
+      top: -50,
+      right: -50,
+      width: 180,
+      height: 180,
+      borderRadius: 90,
+      backgroundColor: "rgba(37,156,244,0.22)",
+    },
+    headerOrb2: {
+      position: "absolute",
+      bottom: -20,
+      left: -40,
+      width: 130,
+      height: 130,
+      borderRadius: 65,
+      backgroundColor: "rgba(29,208,248,0.14)",
     },
     headerRow: {
       flexDirection: "row",
@@ -162,8 +181,11 @@ export default function DoctorDashboard() {
       backgroundColor: colors.card,
       borderRadius: colors.radius + 4,
       padding: 16,
-      borderWidth: 1,
-      borderColor: colors.border,
+      shadowColor: "#003F6D",
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.08,
+      shadowRadius: 12,
+      elevation: 4,
     },
     statIcon: {
       width: 40,
@@ -215,12 +237,15 @@ export default function DoctorDashboard() {
       backgroundColor: colors.card,
       borderRadius: colors.radius + 2,
       padding: 14,
-      borderWidth: 1,
-      borderColor: colors.border,
       flexDirection: "row",
       alignItems: "center",
       gap: 12,
       marginBottom: 10,
+      shadowColor: "#003F6D",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.06,
+      shadowRadius: 8,
+      elevation: 3,
     },
     visitAvatar: {
       width: 44,
@@ -343,7 +368,14 @@ export default function DoctorDashboard() {
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
+        <LinearGradient
+          colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.header}
+        >
+          <View style={styles.headerOrb1} pointerEvents="none" />
+          <View style={styles.headerOrb2} pointerEvents="none" />
           <View style={styles.headerRow}>
             <Pressable style={styles.notifBtn}>
               <Feather name="bell" size={20} color="#FFF" />
@@ -375,7 +407,7 @@ export default function DoctorDashboard() {
               <View style={styles.onlineDot} />
             </View>
           </View>
-        </View>
+        </LinearGradient>
 
         <View style={styles.statsGrid}>
           {STAT_CARDS.map((s, i) => (

@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import {
   FlatList,
@@ -113,12 +114,28 @@ export default function ScheduleScreen() {
   const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: {
-      paddingTop: topPad + 12,
+      paddingTop: topPad + 14,
       paddingHorizontal: 20,
-      paddingBottom: 0,
-      backgroundColor: colors.card,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border,
+      paddingBottom: 14,
+      overflow: "hidden",
+    },
+    headerOrb1: {
+      position: "absolute",
+      top: -50,
+      right: -50,
+      width: 160,
+      height: 160,
+      borderRadius: 80,
+      backgroundColor: "rgba(37,156,244,0.2)",
+    },
+    headerOrb2: {
+      position: "absolute",
+      bottom: -20,
+      left: -30,
+      width: 110,
+      height: 110,
+      borderRadius: 55,
+      backgroundColor: "rgba(29,208,248,0.13)",
     },
     titleRow: {
       flexDirection: "row",
@@ -129,7 +146,7 @@ export default function ScheduleScreen() {
     title: {
       fontSize: 22,
       fontWeight: "700",
-      color: colors.foreground,
+      color: "#FFF",
       fontFamily: "Inter_700Bold",
     },
     monthLabel: {
@@ -287,9 +304,16 @@ export default function ScheduleScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <LinearGradient
+        colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.header}
+      >
+        <View style={styles.headerOrb1} pointerEvents="none" />
+        <View style={styles.headerOrb2} pointerEvents="none" />
         <View style={styles.titleRow}>
-          <Text style={styles.monthLabel}>
+          <Text style={[styles.monthLabel, { color: "rgba(255,255,255,0.7)" }]}>
             {MONTHS_AR[weekDays[0].getMonth()]} {weekDays[0].getFullYear()}
           </Text>
           <Text style={styles.title}>جدولي</Text>
@@ -350,7 +374,7 @@ export default function ScheduleScreen() {
             );
           })}
         </ScrollView>
-      </View>
+      </LinearGradient>
 
       <View style={styles.summary}>
         <View style={styles.summaryCard}>

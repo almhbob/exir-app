@@ -3,7 +3,7 @@ const colors = {
     text: "#003F6D",
     tint: "#259CF4",
 
-    background: "#FFFFFF",
+    background: "#EEF4FD",
     foreground: "#003F6D",
 
     card: "#FFFFFF",
@@ -11,27 +11,26 @@ const colors = {
 
     primary: "#259CF4",
     primaryForeground: "#FFFFFF",
-    primaryLight: "#E6F4FF",
+    primaryLight: "#E0EFFE",
 
-    secondary: "#EAF9FD",
+    secondary: "#E4F6FD",
     secondaryForeground: "#003F6D",
 
-    muted: "#F2F8FE",
-    mutedForeground: "#6B91B0",
+    muted: "#E6EFF8",
+    mutedForeground: "#5A82A0",
 
     accent: "#1DD0F8",
     accentForeground: "#003F6D",
-    accentLight: "#E0FBFF",
+    accentLight: "#D6F8FF",
 
     mint: "#5CEAD2",
-    mintLight: "#E6FAF6",
+    mintLight: "#E0FAF4",
 
     dark: "#003F6D",
     darkForeground: "#FFFFFF",
 
-    // success maps to readable blue for text, mint for decorative
     success: "#259CF4",
-    successLight: "#E6F4FF",
+    successLight: "#E0EFFE",
 
     warning: "#F59E0B",
     warningLight: "#FEF3C7",
@@ -40,8 +39,13 @@ const colors = {
     destructiveForeground: "#FFFFFF",
     destructiveLight: "#FEE2E2",
 
-    border: "#E2EEF8",
-    input: "#E2EEF8",
+    border: "#D4E5F5",
+    input: "#D4E5F5",
+
+    // Glass tokens
+    glass: "rgba(255,255,255,0.13)",
+    glassBorder: "rgba(255,255,255,0.24)",
+    glassDark: "rgba(0,63,109,0.06)",
   },
 
   radius: 14,

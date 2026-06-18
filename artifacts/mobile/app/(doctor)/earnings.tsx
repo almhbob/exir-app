@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -42,17 +43,33 @@ export default function EarningsScreen() {
   const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: {
-      paddingTop: topPad + 12,
+      paddingTop: topPad + 14,
       paddingHorizontal: 20,
-      paddingBottom: 16,
-      backgroundColor: colors.card,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border,
+      paddingBottom: 20,
+      overflow: "hidden",
+    },
+    headerOrb1: {
+      position: "absolute",
+      top: -50,
+      right: -50,
+      width: 160,
+      height: 160,
+      borderRadius: 80,
+      backgroundColor: "rgba(37,156,244,0.2)",
+    },
+    headerOrb2: {
+      position: "absolute",
+      bottom: -20,
+      left: -30,
+      width: 110,
+      height: 110,
+      borderRadius: 55,
+      backgroundColor: "rgba(29,208,248,0.13)",
     },
     title: {
       fontSize: 22,
       fontWeight: "700",
-      color: colors.foreground,
+      color: "#FFF",
       fontFamily: "Inter_700Bold",
       textAlign: "right",
       marginBottom: 16,
@@ -75,9 +92,9 @@ export default function EarningsScreen() {
     },
     earningsHero: {
       margin: 16,
-      backgroundColor: colors.dark,
       borderRadius: colors.radius + 4,
       padding: 20,
+      overflow: "hidden",
     },
     heroLabel: {
       fontSize: 13,
@@ -334,7 +351,14 @@ export default function EarningsScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <LinearGradient
+        colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.header}
+      >
+        <View style={styles.headerOrb1} pointerEvents="none" />
+        <View style={styles.headerOrb2} pointerEvents="none" />
         <Text style={styles.title}>الأرباح والفرص</Text>
         <View style={styles.tabRow}>
           <Pressable
@@ -370,11 +394,16 @@ export default function EarningsScreen() {
             </Text>
           </Pressable>
         </View>
-      </View>
+      </LinearGradient>
 
       {tab === "earnings" ? (
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.earningsHero}>
+          <LinearGradient
+            colors={["#003F6D", "#0A6BAD"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.earningsHero}
+          >
             <Text style={styles.heroLabel}>أرباح هذا الشهر</Text>
             <Text style={styles.heroAmount}>
               {totalMonth.toLocaleString()} ر.س
@@ -394,7 +423,7 @@ export default function EarningsScreen() {
                 <Text style={styles.heroStatLabel}>إكمال</Text>
               </View>
             </View>
-          </View>
+          </LinearGradient>
 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>الأرباح الشهرية</Text>

@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import {
   Alert,
@@ -133,12 +134,28 @@ export default function RequestsScreen() {
   const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: {
-      paddingTop: topPad + 12,
+      paddingTop: topPad + 14,
       paddingHorizontal: 20,
-      paddingBottom: 16,
-      backgroundColor: colors.card,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border,
+      paddingBottom: 20,
+      overflow: "hidden",
+    },
+    headerOrb1: {
+      position: "absolute",
+      top: -50,
+      right: -50,
+      width: 160,
+      height: 160,
+      borderRadius: 80,
+      backgroundColor: "rgba(37,156,244,0.2)",
+    },
+    headerOrb2: {
+      position: "absolute",
+      bottom: -20,
+      left: -30,
+      width: 110,
+      height: 110,
+      borderRadius: 55,
+      backgroundColor: "rgba(29,208,248,0.13)",
     },
     titleRow: {
       flexDirection: "row",
@@ -149,11 +166,11 @@ export default function RequestsScreen() {
     title: {
       fontSize: 22,
       fontWeight: "700",
-      color: colors.foreground,
+      color: "#FFF",
       fontFamily: "Inter_700Bold",
     },
     countBadge: {
-      backgroundColor: colors.warningLight,
+      backgroundColor: "rgba(249,158,31,0.85)",
       paddingHorizontal: 10,
       paddingVertical: 4,
       borderRadius: 100,
@@ -166,7 +183,7 @@ export default function RequestsScreen() {
     },
     subtitle: {
       fontSize: 13,
-      color: colors.mutedForeground,
+      color: "rgba(255,255,255,0.7)",
       fontFamily: "Inter_400Regular",
       marginBottom: 16,
       textAlign: "right",
@@ -334,7 +351,14 @@ export default function RequestsScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <LinearGradient
+        colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.header}
+      >
+        <View style={styles.headerOrb1} pointerEvents="none" />
+        <View style={styles.headerOrb2} pointerEvents="none" />
         <View style={styles.titleRow}>
           <View style={styles.countBadge}>
             <Text style={styles.countText}>{filtered.length} طلب</Text>
@@ -349,8 +373,8 @@ export default function RequestsScreen() {
               style={[
                 styles.filterChip,
                 {
-                  backgroundColor: filter === t.id ? colors.primary : colors.muted,
-                  borderColor: filter === t.id ? colors.primary : colors.border,
+                  backgroundColor: filter === t.id ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.12)",
+                  borderColor: filter === t.id ? "#FFF" : "rgba(255,255,255,0.28)",
                 },
               ]}
               onPress={() => setFilter(t.id)}
@@ -358,7 +382,7 @@ export default function RequestsScreen() {
               <Text
                 style={[
                   styles.filterText,
-                  { color: filter === t.id ? "#FFF" : colors.foreground },
+                  { color: filter === t.id ? colors.dark : "rgba(255,255,255,0.9)" },
                 ]}
               >
                 {t.label}
@@ -366,7 +390,7 @@ export default function RequestsScreen() {
             </Pressable>
           ))}
         </View>
-      </View>
+      </LinearGradient>
 
       <FlatList
         data={filtered}

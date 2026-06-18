@@ -1,6 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import * as ImagePicker from "expo-image-picker";
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -86,9 +87,27 @@ export default function PatientProfile() {
     header: {
       paddingTop: topPad + 12,
       paddingHorizontal: 20,
-      paddingBottom: 24,
-      backgroundColor: colors.dark,
+      paddingBottom: 28,
       alignItems: "center",
+      overflow: "hidden",
+    },
+    headerOrb1: {
+      position: "absolute",
+      top: -60,
+      right: -60,
+      width: 200,
+      height: 200,
+      borderRadius: 100,
+      backgroundColor: "rgba(37,156,244,0.2)",
+    },
+    headerOrb2: {
+      position: "absolute",
+      bottom: -20,
+      left: -40,
+      width: 150,
+      height: 150,
+      borderRadius: 75,
+      backgroundColor: "rgba(29,208,248,0.14)",
     },
     avatar: {
       width: 88,
@@ -134,13 +153,16 @@ export default function PatientProfile() {
       flexDirection: "row",
       justifyContent: "center",
       gap: 32,
-      paddingVertical: 16,
+      paddingVertical: 18,
       marginHorizontal: 20,
       backgroundColor: colors.card,
-      borderRadius: colors.radius + 4,
-      marginTop: -1,
-      borderWidth: 1,
-      borderColor: colors.border,
+      borderRadius: colors.radius + 6,
+      marginTop: -20,
+      shadowColor: "#003F6D",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
+      shadowRadius: 16,
+      elevation: 6,
     },
     stat: { alignItems: "center" },
     statValue: {
@@ -168,9 +190,12 @@ export default function PatientProfile() {
     infoCard: {
       backgroundColor: colors.card,
       borderRadius: colors.radius + 4,
-      borderWidth: 1,
-      borderColor: colors.border,
       overflow: "hidden",
+      shadowColor: "#003F6D",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.06,
+      shadowRadius: 10,
+      elevation: 3,
     },
     infoRow: {
       flexDirection: "row",
@@ -263,12 +288,15 @@ export default function PatientProfile() {
       flexDirection: "row",
       alignItems: "center",
       backgroundColor: colors.card,
-      borderRadius: colors.radius,
-      padding: 14,
+      borderRadius: colors.radius + 2,
+      padding: 15,
       marginBottom: 10,
-      borderWidth: 1,
-      borderColor: colors.border,
       gap: 12,
+      shadowColor: "#003F6D",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
     },
     menuItemIcon: {
       width: 36,
@@ -308,7 +336,14 @@ export default function PatientProfile() {
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
+        <LinearGradient
+          colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.header}
+        >
+          <View style={styles.headerOrb1} pointerEvents="none" />
+          <View style={styles.headerOrb2} pointerEvents="none" />
           <Pressable onPress={handleAvatarUpload} disabled={avatarUploading}>
             <View style={styles.avatar}>
               {userProfile.avatarUrl ? (
@@ -330,7 +365,7 @@ export default function PatientProfile() {
           </Pressable>
           <Text style={styles.userName}>{userProfile.name || "المريض"}</Text>
           <Text style={styles.userPhone}>{userProfile.phone || "رقم الجوال"}</Text>
-        </View>
+        </LinearGradient>
 
         <View style={[styles.statsRow]}>
           <View style={styles.stat}>

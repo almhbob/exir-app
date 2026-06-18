@@ -1,6 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import * as ImagePicker from "expo-image-picker";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import {
   Alert,
@@ -139,8 +140,26 @@ export default function MedicalRecordsScreen() {
     header: {
       paddingTop: topPad + 12,
       paddingHorizontal: 20,
-      paddingBottom: 20,
-      backgroundColor: colors.dark,
+      paddingBottom: 24,
+      overflow: "hidden",
+    },
+    headerOrb1: {
+      position: "absolute",
+      top: -50,
+      right: -50,
+      width: 160,
+      height: 160,
+      borderRadius: 80,
+      backgroundColor: "rgba(37,156,244,0.2)",
+    },
+    headerOrb2: {
+      position: "absolute",
+      bottom: -20,
+      left: -30,
+      width: 110,
+      height: 110,
+      borderRadius: 55,
+      backgroundColor: "rgba(29,208,248,0.13)",
     },
     headerTitle: {
       fontSize: 22,
@@ -415,14 +434,21 @@ export default function MedicalRecordsScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
+      <LinearGradient
+        colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.header}
+      >
+        <View style={styles.headerOrb1} pointerEvents="none" />
+        <View style={styles.headerOrb2} pointerEvents="none" />
         <Text style={styles.headerTitle}>سجلاتي الطبية</Text>
         <Text style={styles.headerSub}>
           {results.length > 0
             ? `${results.length} وثيقة مرفوعة على Cloudinary`
             : "ارفع نتائج الفحوصات والوصفات بأمان"}
         </Text>
-      </View>
+      </LinearGradient>
 
       {/* Category filters */}
       <ScrollView

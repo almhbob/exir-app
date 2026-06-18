@@ -1,6 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import * as ImagePicker from "expo-image-picker";
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -92,9 +93,27 @@ export default function DoctorProfile() {
     header: {
       paddingTop: topPad + 12,
       paddingHorizontal: 20,
-      paddingBottom: 28,
-      backgroundColor: colors.dark,
+      paddingBottom: 32,
       alignItems: "center",
+      overflow: "hidden",
+    },
+    headerOrb1: {
+      position: "absolute",
+      top: -60,
+      right: -60,
+      width: 200,
+      height: 200,
+      borderRadius: 100,
+      backgroundColor: "rgba(37,156,244,0.2)",
+    },
+    headerOrb2: {
+      position: "absolute",
+      bottom: -20,
+      left: -40,
+      width: 150,
+      height: 150,
+      borderRadius: 75,
+      backgroundColor: "rgba(29,208,248,0.14)",
     },
     avatar: {
       width: 96,
@@ -159,11 +178,14 @@ export default function DoctorProfile() {
       gap: 0,
       marginHorizontal: 20,
       backgroundColor: colors.card,
-      borderRadius: colors.radius + 4,
-      marginTop: -1,
-      borderWidth: 1,
-      borderColor: colors.border,
+      borderRadius: colors.radius + 6,
+      marginTop: -22,
       overflow: "hidden",
+      shadowColor: "#003F6D",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
+      shadowRadius: 16,
+      elevation: 6,
     },
     stat: {
       flex: 1,
@@ -312,7 +334,14 @@ export default function DoctorProfile() {
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
+        <LinearGradient
+          colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.header}
+        >
+          <View style={styles.headerOrb1} pointerEvents="none" />
+          <View style={styles.headerOrb2} pointerEvents="none" />
           <Pressable onPress={handleAvatarUpload} disabled={avatarUploading}>
             <View style={styles.avatar}>
               {userProfile.avatarUrl ? (
@@ -342,7 +371,7 @@ export default function DoctorProfile() {
             <Feather name="shield" size={12} color="#FFF" />
             <Text style={styles.verifiedText}>موثق على المنصة</Text>
           </View>
-        </View>
+        </LinearGradient>
 
         <View style={styles.statsRow}>
           {[

@@ -1,4 +1,5 @@
 import { Feather } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import {
   FlatList,
@@ -45,17 +46,33 @@ export default function BookingsScreen() {
   const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: {
-      paddingTop: topPad + 12,
+      paddingTop: topPad + 16,
       paddingHorizontal: 20,
-      paddingBottom: 16,
-      backgroundColor: colors.card,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border,
+      paddingBottom: 20,
+      overflow: "hidden",
+    },
+    headerOrb1: {
+      position: "absolute",
+      top: -50,
+      right: -50,
+      width: 160,
+      height: 160,
+      borderRadius: 80,
+      backgroundColor: "rgba(37,156,244,0.2)",
+    },
+    headerOrb2: {
+      position: "absolute",
+      bottom: -20,
+      left: -30,
+      width: 110,
+      height: 110,
+      borderRadius: 55,
+      backgroundColor: "rgba(29,208,248,0.13)",
     },
     title: {
       fontSize: 22,
       fontWeight: "700",
-      color: colors.foreground,
+      color: "#FFF",
       fontFamily: "Inter_700Bold",
       marginBottom: 16,
       textAlign: "right",
@@ -79,8 +96,11 @@ export default function BookingsScreen() {
       backgroundColor: colors.card,
       borderRadius: colors.radius + 4,
       padding: 16,
-      borderWidth: 1,
-      borderColor: colors.border,
+      shadowColor: "#003F6D",
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.07,
+      shadowRadius: 10,
+      elevation: 3,
     },
     cardHeader: {
       flexDirection: "row",
@@ -204,7 +224,14 @@ export default function BookingsScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <LinearGradient
+        colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.header}
+      >
+        <View style={styles.headerOrb1} pointerEvents="none" />
+        <View style={styles.headerOrb2} pointerEvents="none" />
         <Text style={styles.title}>حجوزاتي</Text>
         <View style={styles.tabs}>
           {TABS.map((t) => (
@@ -214,9 +241,9 @@ export default function BookingsScreen() {
                 styles.tab,
                 {
                   backgroundColor:
-                    filter === t.id ? colors.primary : colors.muted,
+                    filter === t.id ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.12)",
                   borderColor:
-                    filter === t.id ? colors.primary : colors.border,
+                    filter === t.id ? "#FFF" : "rgba(255,255,255,0.25)",
                 },
               ]}
               onPress={() => setFilter(t.id)}
@@ -224,7 +251,7 @@ export default function BookingsScreen() {
               <Text
                 style={[
                   styles.tabText,
-                  { color: filter === t.id ? "#FFF" : colors.foreground },
+                  { color: filter === t.id ? colors.dark : "rgba(255,255,255,0.85)" },
                 ]}
               >
                 {t.label}
@@ -232,7 +259,7 @@ export default function BookingsScreen() {
             </Pressable>
           ))}
         </View>
-      </View>
+      </LinearGradient>
 
       <FlatList
         data={filtered}

@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -17,10 +18,10 @@ import { useApp } from "@/context/AppContext";
 import { useColors } from "@/hooks/useColors";
 
 const QUICK_SERVICES = [
-  { id: "qs1", label: "طوارئ منزلية", icon: "alert-circle", color: "#DC2626" },
-  { id: "qs2", label: "تحاليل منزلية", icon: "droplet", color: "#7C3AED" },
-  { id: "qs3", label: "توصيل دواء", icon: "package", color: "#059669" },
-  { id: "qs4", label: "تمريض منزلي", icon: "activity", color: "#D97706" },
+  { id: "qs1", label: "طوارئ منزلية", icon: "alert-circle", color: "#DC2626", bg: "#FEE2E2" },
+  { id: "qs2", label: "تحاليل منزلية", icon: "droplet", color: "#7C3AED", bg: "#EDE9FE" },
+  { id: "qs3", label: "توصيل دواء", icon: "package", color: "#059669", bg: "#D1FAE5" },
+  { id: "qs4", label: "تمريض منزلي", icon: "activity", color: "#D97706", bg: "#FEF3C7" },
 ];
 
 export default function PatientHome() {
@@ -41,42 +42,70 @@ export default function PatientHome() {
     header: {
       paddingTop: topPad + 16,
       paddingHorizontal: 20,
-      paddingBottom: 20,
-      backgroundColor: colors.dark,
+      paddingBottom: 28,
+      overflow: "hidden",
+    },
+    orb1: {
+      position: "absolute",
+      top: -50,
+      right: -60,
+      width: 180,
+      height: 180,
+      borderRadius: 90,
+      backgroundColor: "rgba(37,156,244,0.22)",
+    },
+    orb2: {
+      position: "absolute",
+      bottom: -30,
+      left: -40,
+      width: 130,
+      height: 130,
+      borderRadius: 65,
+      backgroundColor: "rgba(29,208,248,0.14)",
     },
     headerTop: {
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
-      marginBottom: 16,
+      marginBottom: 20,
     },
     greeting: {
       fontSize: 13,
-      color: "rgba(255,255,255,0.75)",
+      color: "rgba(255,255,255,0.72)",
       fontFamily: "Inter_400Regular",
     },
     userName: {
-      fontSize: 20,
+      fontSize: 21,
       fontWeight: "700",
       color: "#FFF",
       fontFamily: "Inter_700Bold",
+      letterSpacing: -0.3,
     },
     notifBtn: {
-      width: 40,
-      height: 40,
-      borderRadius: 20,
-      backgroundColor: "rgba(255,255,255,0.2)",
+      width: 42,
+      height: 42,
+      borderRadius: 21,
+      backgroundColor: "rgba(255,255,255,0.15)",
+      borderWidth: 1,
+      borderColor: "rgba(255,255,255,0.25)",
       alignItems: "center",
       justifyContent: "center",
     },
     searchBar: {
       flexDirection: "row",
       alignItems: "center",
-      backgroundColor: "rgba(255,255,255,0.95)",
+      backgroundColor: "rgba(255,255,255,0.93)",
       borderRadius: colors.radius,
       paddingHorizontal: 14,
-      paddingVertical: 12,
+      paddingVertical: 13,
       gap: 10,
+      borderWidth: 1,
+      borderColor: "rgba(255,255,255,0.5)",
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.12,
+      shadowRadius: 8,
+      elevation: 3,
     },
     searchText: {
       fontSize: 14,
@@ -113,13 +142,16 @@ export default function PatientHome() {
       padding: 14,
       alignItems: "center",
       gap: 8,
-      borderWidth: 1,
-      borderColor: colors.border,
+      shadowColor: "#259CF4",
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.09,
+      shadowRadius: 10,
+      elevation: 3,
     },
     quickIcon: {
-      width: 44,
-      height: 44,
-      borderRadius: 14,
+      width: 46,
+      height: 46,
+      borderRadius: 15,
       alignItems: "center",
       justifyContent: "center",
     },
@@ -130,11 +162,11 @@ export default function PatientHome() {
       textAlign: "center",
     },
     specialtyRow: {
-      gap: 10,
+      gap: 8,
     },
     specialtyChip: {
-      paddingHorizontal: 16,
-      paddingVertical: 10,
+      paddingHorizontal: 14,
+      paddingVertical: 9,
       borderRadius: 100,
       borderWidth: 1.5,
       flexDirection: "row",
@@ -146,25 +178,30 @@ export default function PatientHome() {
       fontFamily: "Inter_600SemiBold",
     },
     doctorCard: {
-      width: 180,
+      width: 184,
       backgroundColor: colors.card,
-      borderRadius: colors.radius + 4,
+      borderRadius: colors.radius + 6,
       padding: 16,
       marginRight: 12,
-      borderWidth: 1,
-      borderColor: colors.border,
+      shadowColor: "#003F6D",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
+      shadowRadius: 14,
+      elevation: 5,
     },
     doctorAvatar: {
-      width: 52,
-      height: 52,
-      borderRadius: 26,
+      width: 54,
+      height: 54,
+      borderRadius: 27,
       backgroundColor: colors.primaryLight,
       alignItems: "center",
       justifyContent: "center",
       marginBottom: 10,
+      borderWidth: 2,
+      borderColor: colors.primary + "25",
     },
     doctorAvatarText: {
-      fontSize: 16,
+      fontSize: 17,
       fontWeight: "700",
       color: colors.primary,
       fontFamily: "Inter_700Bold",
@@ -201,7 +238,7 @@ export default function PatientHome() {
     availBadge: {
       flexDirection: "row",
       alignItems: "center",
-      gap: 4,
+      gap: 5,
       backgroundColor: colors.mintLight,
       paddingHorizontal: 8,
       paddingVertical: 4,
@@ -217,14 +254,14 @@ export default function PatientHome() {
     },
     availText: {
       fontSize: 11,
-      color: colors.dark,
+      color: "#047857",
       fontFamily: "Inter_600SemiBold",
     },
     bookBtn: {
-      backgroundColor: colors.dark,
       borderRadius: colors.radius - 2,
       paddingVertical: 8,
       alignItems: "center",
+      overflow: "hidden",
     },
     bookBtnText: {
       color: "#FFF",
@@ -232,18 +269,21 @@ export default function PatientHome() {
       fontFamily: "Inter_700Bold",
     },
     activeBanner: {
-      margin: 20,
-      backgroundColor: colors.dark,
+      margin: 16,
+      marginBottom: 0,
       borderRadius: colors.radius + 4,
+      overflow: "hidden",
+    },
+    activeBannerInner: {
       padding: 16,
       flexDirection: "row",
       alignItems: "center",
       gap: 12,
     },
     activeBannerIcon: {
-      width: 44,
-      height: 44,
-      borderRadius: 22,
+      width: 46,
+      height: 46,
+      borderRadius: 23,
       backgroundColor: "rgba(255,255,255,0.2)",
       alignItems: "center",
       justifyContent: "center",
@@ -263,13 +303,23 @@ export default function PatientHome() {
     activeBannerArrow: {
       marginLeft: "auto",
     },
-    space: { height: 100 },
+    space: { height: 110 },
   });
 
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
+
+        {/* ── Gradient Header ── */}
+        <LinearGradient
+          colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.header}
+        >
+          <View style={styles.orb1} pointerEvents="none" />
+          <View style={styles.orb2} pointerEvents="none" />
+
           <View style={styles.headerTop}>
             <View>
               <Text style={styles.greeting}>مرحباً،</Text>
@@ -281,6 +331,7 @@ export default function PatientHome() {
               <Feather name="bell" size={20} color="#FFF" />
             </Pressable>
           </View>
+
           <Pressable
             style={styles.searchBar}
             onPress={() => router.push("/(patient)/doctors")}
@@ -288,28 +339,38 @@ export default function PatientHome() {
             <Feather name="search" size={16} color={colors.mutedForeground} />
             <Text style={styles.searchText}>ابحث عن طبيب أو تخصص...</Text>
           </Pressable>
-        </View>
+        </LinearGradient>
 
+        {/* ── Active booking banner ── */}
         {activeBooking && (
           <Pressable style={styles.activeBanner}>
-            <View style={styles.activeBannerIcon}>
-              <Feather name="navigation" size={22} color="#FFF" />
-            </View>
-            <View>
-              <Text style={styles.activeBannerTitle}>زيارة جارية</Text>
-              <Text style={styles.activeBannerSub}>
-                {activeBooking.doctorName} — {activeBooking.specialty}
-              </Text>
-            </View>
-            <Feather
-              name="chevron-left"
-              size={20}
-              color="#FFF"
-              style={styles.activeBannerArrow}
+            <LinearGradient
+              colors={["#259CF4", "#1DD0F8"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={StyleSheet.absoluteFill}
             />
+            <View style={styles.activeBannerInner}>
+              <View style={styles.activeBannerIcon}>
+                <Feather name="navigation" size={22} color="#FFF" />
+              </View>
+              <View>
+                <Text style={styles.activeBannerTitle}>زيارة جارية</Text>
+                <Text style={styles.activeBannerSub}>
+                  {activeBooking.doctorName} — {activeBooking.specialty}
+                </Text>
+              </View>
+              <Feather
+                name="chevron-left"
+                size={20}
+                color="#FFF"
+                style={styles.activeBannerArrow}
+              />
+            </View>
           </Pressable>
         )}
 
+        {/* ── Quick Services ── */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { marginBottom: 14 }]}>
             خدمات سريعة
@@ -324,7 +385,7 @@ export default function PatientHome() {
                   router.push("/(patient)/doctors");
                 }}
               >
-                <View style={[styles.quickIcon, { backgroundColor: s.color + "20" }]}>
+                <View style={[styles.quickIcon, { backgroundColor: s.bg }]}>
                   <Feather name={s.icon as any} size={22} color={s.color} />
                 </View>
                 <Text style={styles.quickLabel}>{s.label}</Text>
@@ -333,12 +394,13 @@ export default function PatientHome() {
           </View>
         </View>
 
+        {/* ── Specialties ── */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>التخصصات</Text>
             <Pressable onPress={() => router.push("/(patient)/doctors")}>
               <Text style={styles.seeAll}>عرض الكل</Text>
             </Pressable>
+            <Text style={styles.sectionTitle}>التخصصات</Text>
           </View>
           <ScrollView
             horizontal
@@ -352,14 +414,12 @@ export default function PatientHome() {
                   styles.specialtyChip,
                   {
                     backgroundColor: colors.accentLight,
-                    borderColor: colors.accent + "40",
+                    borderColor: colors.accent + "50",
                   },
                 ]}
                 onPress={() => router.push("/(patient)/doctors")}
               >
-                <Text
-                  style={[styles.specialtyText, { color: colors.dark }]}
-                >
+                <Text style={[styles.specialtyText, { color: colors.dark }]}>
                   {sp.name}
                 </Text>
                 <Text
@@ -375,12 +435,13 @@ export default function PatientHome() {
           </ScrollView>
         </View>
 
+        {/* ── Available Doctors ── */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>أطباء متاحون الآن</Text>
             <Pressable onPress={() => router.push("/(patient)/doctors")}>
               <Text style={styles.seeAll}>عرض الكل</Text>
             </Pressable>
+            <Text style={styles.sectionTitle}>أطباء متاحون الآن</Text>
           </View>
           <FlatList
             data={availableDoctors}
@@ -411,7 +472,16 @@ export default function PatientHome() {
                   <View style={styles.availDot} />
                   <Text style={styles.availText}>متاح الآن</Text>
                 </View>
-                <Pressable style={styles.bookBtn}>
+                <Pressable style={styles.bookBtn} onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                  router.push("/(patient)/doctors");
+                }}>
+                  <LinearGradient
+                    colors={["#003F6D", "#0A5FA0"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={[StyleSheet.absoluteFill, { borderRadius: colors.radius - 2 }]}
+                  />
                   <Text style={styles.bookBtnText}>احجز زيارة</Text>
                 </Pressable>
               </Pressable>

@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import {
   Alert,
@@ -83,17 +84,33 @@ export default function DoctorsScreen() {
   const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: {
-      paddingTop: topPad + 12,
+      paddingTop: topPad + 14,
       paddingHorizontal: 20,
-      paddingBottom: 16,
-      backgroundColor: colors.card,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border,
+      paddingBottom: 20,
+      overflow: "hidden",
+    },
+    headerOrb1: {
+      position: "absolute",
+      top: -50,
+      right: -50,
+      width: 160,
+      height: 160,
+      borderRadius: 80,
+      backgroundColor: "rgba(37,156,244,0.2)",
+    },
+    headerOrb2: {
+      position: "absolute",
+      bottom: -20,
+      left: -30,
+      width: 110,
+      height: 110,
+      borderRadius: 55,
+      backgroundColor: "rgba(29,208,248,0.13)",
     },
     headerTitle: {
       fontSize: 22,
       fontWeight: "700",
-      color: colors.foreground,
+      color: "#FFF",
       fontFamily: "Inter_700Bold",
       marginBottom: 12,
       textAlign: "right",
@@ -101,12 +118,14 @@ export default function DoctorsScreen() {
     searchBar: {
       flexDirection: "row",
       alignItems: "center",
-      backgroundColor: colors.muted,
+      backgroundColor: "rgba(255,255,255,0.93)",
       borderRadius: colors.radius,
       paddingHorizontal: 12,
-      paddingVertical: 10,
+      paddingVertical: 11,
       gap: 8,
       marginBottom: 12,
+      borderWidth: 1,
+      borderColor: "rgba(255,255,255,0.5)",
     },
     searchInput: {
       flex: 1,
@@ -131,8 +150,11 @@ export default function DoctorsScreen() {
       backgroundColor: colors.card,
       borderRadius: colors.radius + 4,
       padding: 16,
-      borderWidth: 1,
-      borderColor: colors.border,
+      shadowColor: "#003F6D",
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.08,
+      shadowRadius: 12,
+      elevation: 4,
     },
     cardTop: {
       flexDirection: "row",
@@ -367,7 +389,14 @@ export default function DoctorsScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <LinearGradient
+        colors={["#001E3C", "#003F6D", "#0A5FA0"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.header}
+      >
+        <View style={styles.headerOrb1} pointerEvents="none" />
+        <View style={styles.headerOrb2} pointerEvents="none" />
         <Text style={styles.headerTitle}>أطباء ومختصون</Text>
         <View style={styles.searchBar}>
           <Feather name="search" size={16} color={colors.mutedForeground} />
@@ -396,9 +425,9 @@ export default function DoctorsScreen() {
                 styles.filterChip,
                 {
                   backgroundColor:
-                    activeFilter === f ? colors.primary : colors.muted,
+                    activeFilter === f ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.12)",
                   borderColor:
-                    activeFilter === f ? colors.primary : colors.border,
+                    activeFilter === f ? "#FFF" : "rgba(255,255,255,0.28)",
                 },
               ]}
               onPress={() => {
@@ -409,7 +438,7 @@ export default function DoctorsScreen() {
               <Text
                 style={[
                   styles.filterChipText,
-                  { color: activeFilter === f ? "#FFF" : colors.foreground },
+                  { color: activeFilter === f ? colors.dark : "rgba(255,255,255,0.9)" },
                 ]}
               >
                 {f}
@@ -417,7 +446,7 @@ export default function DoctorsScreen() {
             </Pressable>
           ))}
         </ScrollView>
-      </View>
+      </LinearGradient>
 
       <FlatList
         data={filtered}

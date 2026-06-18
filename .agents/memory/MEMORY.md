@@ -1,0 +1,1 @@
+- [Glassmorphism design pattern](glassmorphism-pattern.md) — all screen headers use LinearGradient; glass tokens in colors.ts; shadow cards on content.

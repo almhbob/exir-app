@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -62,77 +63,110 @@ export default function OnboardingScreen() {
   }
 
   const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: colors.background,
-    },
-    scroll: {
-      flex: 1,
-    },
+    flex: { flex: 1 },
+    bg: { flex: 1 },
+    scroll: { flex: 1 },
     content: {
-      paddingTop: topPad + 20,
+      paddingTop: topPad + 28,
       paddingHorizontal: 24,
-      paddingBottom: bottomPad + 20,
+      paddingBottom: bottomPad + 40,
       minHeight: "100%",
     },
-    logo: {
-      width: 64,
-      height: 64,
-      borderRadius: 20,
-      backgroundColor: colors.dark,
+    orb1: {
+      position: "absolute",
+      top: -80,
+      right: -80,
+      width: 280,
+      height: 280,
+      borderRadius: 140,
+      backgroundColor: "rgba(37,156,244,0.22)",
+    },
+    orb2: {
+      position: "absolute",
+      bottom: 100,
+      left: -60,
+      width: 200,
+      height: 200,
+      borderRadius: 100,
+      backgroundColor: "rgba(29,208,248,0.15)",
+    },
+    orb3: {
+      position: "absolute",
+      top: "35%",
+      left: "60%",
+      width: 120,
+      height: 120,
+      borderRadius: 60,
+      backgroundColor: "rgba(92,234,210,0.12)",
+    },
+    logoBox: {
+      width: 70,
+      height: 70,
+      borderRadius: 22,
+      backgroundColor: "rgba(255,255,255,0.18)",
+      borderWidth: 1.5,
+      borderColor: "rgba(255,255,255,0.32)",
       alignItems: "center",
       justifyContent: "center",
-      marginBottom: 24,
+      marginBottom: 28,
+    },
+    logoText: {
+      fontSize: 26,
+      fontWeight: "700",
+      color: "#FFF",
+      fontFamily: "Inter_700Bold",
     },
     title: {
-      fontSize: 32,
+      fontSize: 34,
       fontWeight: "700",
-      color: colors.foreground,
+      color: "#FFF",
       fontFamily: "Inter_700Bold",
-      marginBottom: 8,
+      marginBottom: 10,
+      letterSpacing: -0.5,
     },
     subtitle: {
-      fontSize: 16,
-      color: colors.mutedForeground,
+      fontSize: 15,
+      color: "rgba(255,255,255,0.75)",
       fontFamily: "Inter_400Regular",
       lineHeight: 24,
       marginBottom: 40,
     },
     sectionLabel: {
-      fontSize: 13,
+      fontSize: 12,
       fontWeight: "600",
-      color: colors.mutedForeground,
+      color: "rgba(255,255,255,0.6)",
       fontFamily: "Inter_600SemiBold",
       textTransform: "uppercase",
-      letterSpacing: 0.8,
-      marginBottom: 16,
+      letterSpacing: 1.2,
+      marginBottom: 14,
     },
     roleCard: {
       borderRadius: colors.radius + 4,
-      borderWidth: 2,
-      padding: 20,
+      borderWidth: 1.5,
+      padding: 18,
       marginBottom: 12,
       flexDirection: "row",
       alignItems: "center",
-      gap: 16,
+      gap: 14,
     },
     roleIcon: {
-      width: 56,
-      height: 56,
+      width: 52,
+      height: 52,
       borderRadius: 16,
       alignItems: "center",
       justifyContent: "center",
     },
     roleTitle: {
-      fontSize: 18,
+      fontSize: 17,
       fontWeight: "700",
       fontFamily: "Inter_700Bold",
-      marginBottom: 4,
+      marginBottom: 3,
+      color: "#FFF",
     },
     roleDesc: {
       fontSize: 13,
       fontFamily: "Inter_400Regular",
-      color: colors.mutedForeground,
+      color: "rgba(255,255,255,0.65)",
       lineHeight: 18,
     },
     checkMark: {
@@ -141,24 +175,41 @@ export default function OnboardingScreen() {
       borderRadius: 12,
       alignItems: "center",
       justifyContent: "center",
-      marginLeft: "auto",
     },
     continueBtn: {
-      backgroundColor: colors.primary,
       borderRadius: colors.radius,
       paddingVertical: 16,
       alignItems: "center",
       marginTop: 32,
+      overflow: "hidden",
     },
     continueBtnDisabled: {
       opacity: 0.4,
     },
     continueBtnText: {
-      color: "#FFF",
+      color: colors.dark,
       fontSize: 16,
       fontWeight: "700",
       fontFamily: "Inter_700Bold",
     },
+    featureRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 12,
+      marginBottom: 12,
+    },
+    featureDot: {
+      width: 7,
+      height: 7,
+      borderRadius: 4,
+      backgroundColor: "rgba(92,234,210,0.9)",
+    },
+    featureText: {
+      fontSize: 14,
+      color: "rgba(255,255,255,0.75)",
+      fontFamily: "Inter_400Regular",
+    },
+    // Profile step styles
     backBtn: {
       flexDirection: "row",
       alignItems: "center",
@@ -167,269 +218,248 @@ export default function OnboardingScreen() {
     },
     backText: {
       fontSize: 15,
-      color: colors.primary,
+      color: "rgba(255,255,255,0.9)",
       fontFamily: "Inter_500Medium",
     },
     inputLabel: {
       fontSize: 14,
       fontWeight: "600",
-      color: colors.foreground,
+      color: "rgba(255,255,255,0.9)",
       fontFamily: "Inter_600SemiBold",
       marginBottom: 8,
     },
     input: {
       borderWidth: 1.5,
-      borderColor: colors.border,
+      borderColor: "rgba(255,255,255,0.22)",
       borderRadius: colors.radius,
       paddingHorizontal: 16,
       paddingVertical: 14,
       fontSize: 16,
-      color: colors.foreground,
+      color: "#FFF",
       fontFamily: "Inter_400Regular",
-      backgroundColor: colors.card,
+      backgroundColor: "rgba(255,255,255,0.1)",
       marginBottom: 16,
       textAlign: "right",
-    },
-    inputFocused: {
-      borderColor: colors.primary,
-    },
-    featureRow: {
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 10,
-      marginBottom: 12,
-    },
-    featureDot: {
-      width: 8,
-      height: 8,
-      borderRadius: 4,
-      backgroundColor: colors.primary,
-    },
-    featureText: {
-      fontSize: 14,
-      color: colors.mutedForeground,
-      fontFamily: "Inter_400Regular",
     },
   });
 
   if (step === "profile") {
     return (
-      <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
-        <View style={styles.content}>
-          <Pressable style={styles.backBtn} onPress={() => setStep("role")}>
-            <Feather name="arrow-left" size={20} color={colors.primary} />
-            <Text style={styles.backText}>رجوع</Text>
-          </Pressable>
-
-          <View style={styles.logo}>
-            <Feather
-              name={selectedRole === "doctor" ? "briefcase" : "user"}
-              size={28}
-              color="#FFF"
-            />
+      <View style={styles.flex}>
+        <LinearGradient
+          colors={["#001F3F", "#003F6D", "#0A5FA0"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.bg}
+        >
+          <View style={[StyleSheet.absoluteFill, { overflow: "hidden" }]} pointerEvents="none">
+            <View style={styles.orb1} />
+            <View style={styles.orb2} />
+            <View style={styles.orb3} />
           </View>
+          <ScrollView style={styles.scroll} keyboardShouldPersistTaps="handled">
+            <View style={styles.content}>
+              <Pressable style={styles.backBtn} onPress={() => setStep("role")}>
+                <Feather name="arrow-left" size={20} color="rgba(255,255,255,0.9)" />
+                <Text style={styles.backText}>رجوع</Text>
+              </Pressable>
 
-          <Text style={styles.title}>
-            {selectedRole === "patient" ? "مرحباً بك" : "انضم كمختص"}
-          </Text>
-          <Text style={styles.subtitle}>
-            {selectedRole === "patient"
-              ? "أدخل بياناتك للحصول على أفضل رعاية صحية منزلية"
-              : "انضم لآلاف الأطباء والمختصين الذين يعملون معنا"}
-          </Text>
+              <View style={styles.logoBox}>
+                <Feather
+                  name={selectedRole === "doctor" ? "briefcase" : "user"}
+                  size={28}
+                  color="#FFF"
+                />
+              </View>
 
-          <Text style={styles.inputLabel}>الاسم الكامل</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="أدخل اسمك الكامل"
-            placeholderTextColor={colors.mutedForeground}
-            value={name}
-            onChangeText={setName}
-          />
+              <Text style={styles.title}>
+                {selectedRole === "patient" ? "مرحباً بك" : "انضم كمختص"}
+              </Text>
+              <Text style={styles.subtitle}>
+                {selectedRole === "patient"
+                  ? "أدخل بياناتك للحصول على أفضل رعاية صحية منزلية"
+                  : "انضم لآلاف الأطباء والمختصين الذين يعملون معنا"}
+              </Text>
 
-          <Text style={styles.inputLabel}>رقم الجوال</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="05xxxxxxxx"
-            placeholderTextColor={colors.mutedForeground}
-            value={phone}
-            onChangeText={setPhone}
-            keyboardType="phone-pad"
-          />
-
-          {selectedRole === "doctor" && (
-            <>
-              <Text style={styles.inputLabel}>التخصص الطبي</Text>
+              <Text style={styles.inputLabel}>الاسم الكامل</Text>
               <TextInput
                 style={styles.input}
-                placeholder="مثال: طب عام، طب الأطفال..."
-                placeholderTextColor={colors.mutedForeground}
-                value={specialty}
-                onChangeText={setSpecialty}
+                placeholder="أدخل اسمك الكامل"
+                placeholderTextColor="rgba(255,255,255,0.4)"
+                value={name}
+                onChangeText={setName}
               />
-            </>
-          )}
 
-          <Pressable
-            style={[
-              styles.continueBtn,
-              (!name.trim() || !phone.trim()) && styles.continueBtnDisabled,
-            ]}
-            onPress={handleStart}
-            disabled={!name.trim() || !phone.trim() || loading}
-          >
-            <Text style={styles.continueBtnText}>ابدأ الآن</Text>
-          </Pressable>
-        </View>
-      </ScrollView>
+              <Text style={styles.inputLabel}>رقم الجوال</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="05xxxxxxxx"
+                placeholderTextColor="rgba(255,255,255,0.4)"
+                value={phone}
+                onChangeText={setPhone}
+                keyboardType="phone-pad"
+              />
+
+              {selectedRole === "doctor" && (
+                <>
+                  <Text style={styles.inputLabel}>التخصص الطبي</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="مثال: طب عام، طب الأطفال..."
+                    placeholderTextColor="rgba(255,255,255,0.4)"
+                    value={specialty}
+                    onChangeText={setSpecialty}
+                  />
+                </>
+              )}
+
+              <Pressable
+                style={[
+                  styles.continueBtn,
+                  (!name.trim() || !phone.trim()) && styles.continueBtnDisabled,
+                ]}
+                onPress={handleStart}
+                disabled={!name.trim() || !phone.trim() || loading}
+              >
+                <LinearGradient
+                  colors={["#FFFFFF", "#E8F4FF"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={[StyleSheet.absoluteFill, { borderRadius: colors.radius }]}
+                />
+                <Text style={styles.continueBtnText}>ابدأ الآن</Text>
+              </Pressable>
+            </View>
+          </ScrollView>
+        </LinearGradient>
+      </View>
     );
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.logo}>
-          <Feather name="plus-circle" size={30} color="#FFF" />
+    <View style={styles.flex}>
+      <LinearGradient
+        colors={["#001F3F", "#003F6D", "#0A5FA0"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.bg}
+      >
+        <View style={[StyleSheet.absoluteFill, { overflow: "hidden" }]} pointerEvents="none">
+          <View style={styles.orb1} />
+          <View style={styles.orb2} />
+          <View style={styles.orb3} />
         </View>
+        <ScrollView style={styles.scroll}>
+          <View style={styles.content}>
+            <View style={styles.logoBox}>
+              <Feather name="plus-circle" size={30} color="#FFF" />
+            </View>
 
-        <Text style={styles.title}>اكسير</Text>
-        <Text style={styles.subtitle}>
-          منصة الرعاية الصحية المنزلية — اكسير يحضر إليك أينما كنت
-        </Text>
+            <Text style={styles.title}>اكسير</Text>
+            <Text style={styles.subtitle}>
+              منصة الرعاية الصحية المنزلية — اكسير يحضر إليك أينما كنت
+            </Text>
 
-        <Text style={styles.sectionLabel}>أنا...</Text>
+            <Text style={styles.sectionLabel}>أنا...</Text>
 
-        <Pressable
-          style={[
-            styles.roleCard,
-            {
-              backgroundColor:
-                selectedRole === "patient" ? colors.primaryLight : colors.card,
-              borderColor:
-                selectedRole === "patient" ? colors.primary : colors.border,
-            },
-          ]}
-          onPress={() => handleRoleSelect("patient")}
-        >
-          <View
-            style={[
-              styles.roleIcon,
+            {[
               {
-                backgroundColor:
-                  selectedRole === "patient"
-                    ? colors.primary
-                    : colors.muted,
+                role: "patient" as const,
+                icon: "user",
+                title: "مريض / أحتاج طبيباً",
+                desc: "احجز طبيباً أو مختصاً لزيارتك في أي وقت",
               },
-            ]}
-          >
-            <Feather
-              name="user"
-              size={24}
-              color={selectedRole === "patient" ? "#FFF" : colors.mutedForeground}
-            />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text
-              style={[
-                styles.roleTitle,
-                { color: selectedRole === "patient" ? colors.primary : colors.foreground },
-              ]}
-            >
-              مريض / أحتاج طبيباً
-            </Text>
-            <Text style={styles.roleDesc}>
-              احجز طبيباً أو مختصاً لزيارتك في أي وقت
-            </Text>
-          </View>
-          {selectedRole === "patient" && (
-            <View
-              style={[
-                styles.checkMark,
-                { backgroundColor: colors.primary },
-              ]}
-            >
-              <Feather name="check" size={14} color="#FFF" />
-            </View>
-          )}
-        </Pressable>
-
-        <Pressable
-          style={[
-            styles.roleCard,
-            {
-              backgroundColor:
-                selectedRole === "doctor" ? colors.primaryLight : colors.card,
-              borderColor:
-                selectedRole === "doctor" ? colors.primary : colors.border,
-            },
-          ]}
-          onPress={() => handleRoleSelect("doctor")}
-        >
-          <View
-            style={[
-              styles.roleIcon,
               {
-                backgroundColor:
-                  selectedRole === "doctor" ? colors.primary : colors.muted,
+                role: "doctor" as const,
+                icon: "briefcase",
+                title: "طبيب / مختص طبي",
+                desc: "انضم وابدأ بتقديم خدماتك الطبية المنزلية",
               },
-            ]}
-          >
-            <Feather
-              name="briefcase"
-              size={24}
-              color={selectedRole === "doctor" ? "#FFF" : colors.mutedForeground}
-            />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text
-              style={[
-                styles.roleTitle,
-                { color: selectedRole === "doctor" ? colors.primary : colors.foreground },
-              ]}
-            >
-              طبيب / مختص طبي
-            </Text>
-            <Text style={styles.roleDesc}>
-              انضم وابدأ بتقديم خدماتك الطبية المنزلية
-            </Text>
-          </View>
-          {selectedRole === "doctor" && (
-            <View
-              style={[
-                styles.checkMark,
-                { backgroundColor: colors.primary },
-              ]}
-            >
-              <Feather name="check" size={14} color="#FFF" />
-            </View>
-          )}
-        </Pressable>
+            ].map((item) => {
+              const isSelected = selectedRole === item.role;
+              return (
+                <Pressable
+                  key={item.role}
+                  style={[
+                    styles.roleCard,
+                    {
+                      backgroundColor: isSelected
+                        ? "rgba(37,156,244,0.22)"
+                        : "rgba(255,255,255,0.1)",
+                      borderColor: isSelected
+                        ? "rgba(37,156,244,0.7)"
+                        : "rgba(255,255,255,0.2)",
+                    },
+                  ]}
+                  onPress={() => handleRoleSelect(item.role)}
+                >
+                  <View
+                    style={[
+                      styles.roleIcon,
+                      {
+                        backgroundColor: isSelected
+                          ? "rgba(37,156,244,0.35)"
+                          : "rgba(255,255,255,0.12)",
+                      },
+                    ]}
+                  >
+                    <Feather
+                      name={item.icon as any}
+                      size={24}
+                      color={isSelected ? "#FFF" : "rgba(255,255,255,0.75)"}
+                    />
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.roleTitle}>{item.title}</Text>
+                    <Text style={styles.roleDesc}>{item.desc}</Text>
+                  </View>
+                  {isSelected && (
+                    <View
+                      style={[
+                        styles.checkMark,
+                        { backgroundColor: colors.primary },
+                      ]}
+                    >
+                      <Feather name="check" size={14} color="#FFF" />
+                    </View>
+                  )}
+                </Pressable>
+              );
+            })}
 
-        <View style={{ marginTop: 32 }}>
-          {[
-            "زيارات منزلية في غضون 60 دقيقة",
-            "أكثر من 500 طبيب ومختص موثق",
-            "توصيل الأدوية لباب المنزل",
-            "فرص عمل للكوادر الطبية",
-          ].map((f, i) => (
-            <View key={i} style={styles.featureRow}>
-              <View style={styles.featureDot} />
-              <Text style={styles.featureText}>{f}</Text>
+            <View style={{ marginTop: 28 }}>
+              {[
+                "زيارات منزلية في غضون 60 دقيقة",
+                "أكثر من 500 طبيب ومختص موثق",
+                "توصيل الأدوية لباب المنزل",
+                "فرص عمل للكوادر الطبية",
+              ].map((f, i) => (
+                <View key={i} style={styles.featureRow}>
+                  <View style={styles.featureDot} />
+                  <Text style={styles.featureText}>{f}</Text>
+                </View>
+              ))}
             </View>
-          ))}
-        </View>
 
-        <Pressable
-          style={[
-            styles.continueBtn,
-            !selectedRole && styles.continueBtnDisabled,
-          ]}
-          onPress={handleContinue}
-          disabled={!selectedRole}
-        >
-          <Text style={styles.continueBtnText}>متابعة</Text>
-        </Pressable>
-      </View>
-    </ScrollView>
+            <Pressable
+              style={[
+                styles.continueBtn,
+                !selectedRole && styles.continueBtnDisabled,
+              ]}
+              onPress={handleContinue}
+              disabled={!selectedRole}
+            >
+              <LinearGradient
+                colors={["#FFFFFF", "#E8F4FF"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={[StyleSheet.absoluteFill, { borderRadius: colors.radius }]}
+              />
+              <Text style={styles.continueBtnText}>متابعة</Text>
+            </Pressable>
+          </View>
+        </ScrollView>
+      </LinearGradient>
+    </View>
   );
 }
