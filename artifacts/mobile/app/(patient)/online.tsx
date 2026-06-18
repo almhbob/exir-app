@@ -802,7 +802,7 @@ export default function OnlineConsultationScreen() {
               <View style={styles.priceWrap}>
                 <Text style={styles.priceLabel}>رسوم الاستشارة</Text>
                 <Text style={styles.price}>
-                  {doc.price} <Text style={styles.priceUnit}>ر.س</Text>
+                  {doc.price} <Text style={styles.priceUnit}>$</Text>
                 </Text>
               </View>
 
@@ -882,17 +882,17 @@ export default function OnlineConsultationScreen() {
                 <Text style={styles.revenueTitle}>تفاصيل الدفع</Text>
                 <View style={styles.revenueRow}>
                   <Text style={[styles.revenueValue, { color: colors.primary }]}>
-                    {doctorShare} ر.س
+                    {doctorShare} $
                   </Text>
                   <Text style={styles.revenueLabel}>🩺 رسوم الطبيب (85%)</Text>
                 </View>
                 <View style={styles.revenueRow}>
-                  <Text style={styles.revenueValue}>{platformFee} ر.س</Text>
+                  <Text style={styles.revenueValue}>{platformFee} $</Text>
                   <Text style={styles.revenueLabel}>📱 رسوم المنصة (15%)</Text>
                 </View>
                 <View style={styles.revenueDivider} />
                 <View style={styles.revenueRow}>
-                  <Text style={styles.revenueTotalValue}>{selectedDoc.price} ر.س</Text>
+                  <Text style={styles.revenueTotalValue}>{selectedDoc.price} $</Text>
                   <Text style={styles.revenueTotalLabel}>المجموع</Text>
                 </View>
               </View>

@@ -537,7 +537,7 @@ export default function EarningsScreen() {
           >
             <Text style={styles.heroLabel}>أرباح هذا الشهر</Text>
             <Text style={styles.heroAmount}>
-              {totalMonth.toLocaleString()} ر.س
+              {totalMonth.toLocaleString()} ج.س
             </Text>
             <Text style={styles.heroSub}>نمو 18% مقارنة بالشهر الماضي</Text>
             <View style={styles.heroRow}>
@@ -599,7 +599,7 @@ export default function EarningsScreen() {
               <View key={row.type} style={[styles.revenueCard, { borderLeftColor: row.color }]}>
                 <View style={styles.revenueCardTop}>
                   <View style={styles.revenueCardMeta}>
-                    <Text style={styles.revenueCardSub}>مثال: {row.exampleTotal} ر.س الرسوم</Text>
+                    <Text style={styles.revenueCardSub}>مثال: {row.exampleTotal.toLocaleString()} ج.س الرسوم</Text>
                     <Text style={styles.revenueCardType}>{row.type}</Text>
                   </View>
                   <View style={[styles.revenueCardIcon, { backgroundColor: row.bg }]}>
@@ -622,14 +622,14 @@ export default function EarningsScreen() {
                     <Text style={styles.revenueChipPct}>{row.platformPct}%</Text>
                     <Text style={styles.revenueChipLabel}>المنصة</Text>
                     <Text style={styles.revenueChipAmt}>
-                      {Math.round(row.exampleTotal * row.platformPct / 100)} ر.س
+                      {Math.round(row.exampleTotal * row.platformPct / 100).toLocaleString()} ج.س
                     </Text>
                   </View>
                   <View style={[styles.revenueChip, { backgroundColor: row.bg }]}>
                     <Text style={[styles.revenueChipPct, { color: row.color }]}>{row.doctorPct}%</Text>
                     <Text style={styles.revenueChipLabel}>نصيبك</Text>
                     <Text style={[styles.revenueChipAmt, { color: row.color, fontFamily: "Inter_700Bold" }]}>
-                      {Math.round(row.exampleTotal * row.doctorPct / 100)} ر.س
+                      {Math.round(row.exampleTotal * row.doctorPct / 100).toLocaleString()} ج.س
                     </Text>
                   </View>
                 </View>
@@ -669,7 +669,7 @@ export default function EarningsScreen() {
             {EARNINGS_HISTORY.map((e) => (
               <View key={e.id} style={styles.historyCard}>
                 <View style={styles.historyMeta}>
-                  <Text style={styles.historyAmount}>{e.amount} ر.س</Text>
+                  <Text style={styles.historyAmount}>{e.amount.toLocaleString()} ج.س</Text>
                   <Text style={styles.historyVisits}>{e.visits} زيارات</Text>
                 </View>
                 <Text style={styles.historyDate}>{e.date}</Text>

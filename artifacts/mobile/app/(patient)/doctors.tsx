@@ -520,7 +520,7 @@ export default function DoctorsScreen() {
                 </View>
               )}
               <View>
-                <Text style={styles.price}>{item.price} ر.س</Text>
+                <Text style={styles.price}>{item.price.toLocaleString()} ج.س</Text>
                 <Text style={styles.priceSub}>للزيارة</Text>
               </View>
             </View>
@@ -566,7 +566,7 @@ export default function DoctorsScreen() {
             />
 
             <View style={styles.priceRow}>
-              <Text style={styles.priceValue}>{selectedDoctor?.price} ر.س</Text>
+              <Text style={styles.priceValue}>{selectedDoctor?.price.toLocaleString()} ج.س</Text>
               <Text style={styles.priceLabel}>رسوم الزيارة</Text>
             </View>
 

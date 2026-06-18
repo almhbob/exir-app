@@ -318,8 +318,8 @@ export default function DoctorDetailScreen() {
             <Text style={styles.statLabel}>بُعد</Text>
           </View>
           <View style={styles.stat}>
-            <Text style={styles.statValue}>{doctor.price}</Text>
-            <Text style={styles.statLabel}>ر.س</Text>
+            <Text style={styles.statValue}>{doctor.price.toLocaleString()}</Text>
+            <Text style={styles.statLabel}>ج.س</Text>
           </View>
         </View>
 
@@ -446,7 +446,7 @@ export default function DoctorDetailScreen() {
         <View style={styles.priceWrap}>
           <Text style={styles.priceLabel}>رسوم الزيارة</Text>
           <Text style={styles.price}>
-            {doctor.price} <Text style={styles.priceUnit}>ر.س</Text>
+            {doctor.price.toLocaleString()} <Text style={styles.priceUnit}>ج.س</Text>
           </Text>
         </View>
 

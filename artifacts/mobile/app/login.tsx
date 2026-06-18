@@ -265,7 +265,7 @@ export default function LoginScreen() {
           <Text style={styles.sub}>
             {step === "phone"
               ? "أدخل رقم جوالك للمتابعة — صحتك أولويتنا"
-              : `أرسلنا رمزاً لـ +966 ${phone}`}
+              : `أرسلنا رمزاً لـ +249 ${phone}`}
           </Text>
         </View>
 
@@ -275,8 +275,8 @@ export default function LoginScreen() {
               <Text style={styles.inputLabel}>رقم الجوال</Text>
               <View style={styles.phoneRow}>
                 <View style={styles.countryCode}>
-                  <Text>🇸🇦</Text>
-                  <Text style={styles.countryCodeText}>+966</Text>
+                  <Text>🇸🇩</Text>
+                  <Text style={styles.countryCodeText}>+249</Text>
                 </View>
                 <TextInput
                   style={styles.phoneInput}

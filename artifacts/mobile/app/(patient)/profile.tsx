@@ -380,7 +380,7 @@ export default function PatientProfile() {
             <Text style={styles.statValue}>
               {bookings.reduce((s, b) => s + b.price, 0)}
             </Text>
-            <Text style={styles.statLabel}>ر.س إجمالي</Text>
+            <Text style={styles.statLabel}>ج.س إجمالي</Text>
           </View>
         </View>
 

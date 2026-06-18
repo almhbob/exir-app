@@ -349,7 +349,7 @@ export default function BookingsScreen() {
               <View style={styles.divider} />
 
               <View style={styles.detailRow}>
-                <Text style={styles.priceText}>{item.price} ر.س</Text>
+                <Text style={styles.priceText}>{item.price.toLocaleString()} ج.س</Text>
                 <View style={{ alignItems: "flex-end", gap: 4 }}>
                   <View style={styles.detailItem}>
                     <Text style={styles.detailText}>{item.time}</Text>

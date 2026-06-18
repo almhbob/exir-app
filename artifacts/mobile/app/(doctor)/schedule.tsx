@@ -383,7 +383,7 @@ export default function ScheduleScreen() {
         </View>
         <View style={styles.summaryCard}>
           <Text style={styles.summaryValue}>{totalEarnings}</Text>
-          <Text style={styles.summaryLabel}>ر.س متوقعة</Text>
+          <Text style={styles.summaryLabel}>ج.س متوقعة</Text>
         </View>
         <View style={styles.summaryCard}>
           <Text style={[styles.summaryValue, { fontSize: 16 }]}>
@@ -423,7 +423,7 @@ export default function ScheduleScreen() {
                 <Text style={styles.visitPatient}>{item.patient}</Text>
                 <Text style={styles.visitComplaint}>{item.complaint}</Text>
                 <View style={styles.visitMeta}>
-                  <Text style={styles.visitAmount}>{item.amount} ر.س</Text>
+                  <Text style={styles.visitAmount}>{item.amount.toLocaleString()} ج.س</Text>
                   <View style={[styles.statusBadge, { backgroundColor: conf.bg }]}>
                     <Text style={[styles.statusText, { color: conf.color }]}>
                       {conf.label}

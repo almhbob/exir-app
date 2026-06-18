@@ -447,7 +447,7 @@ export default function RequestsScreen() {
               </View>
 
               <View style={styles.amountBadge}>
-                <Text style={styles.amountText}>{item.amount} ر.س</Text>
+                <Text style={styles.amountText}>{item.amount.toLocaleString()} ج.س</Text>
               </View>
 
               <View style={styles.btnRow}>

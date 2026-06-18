@@ -810,7 +810,7 @@ export default function JoinRequestScreen() {
             </Text>
             <TextInput
               style={styles.input}
-              placeholder="مثال: الرياض، جدة، الدمام"
+              placeholder="مثال: الخرطوم، أم درمان، بحري، مدني"
               placeholderTextColor={colors.mutedForeground}
               value={city}
               onChangeText={setCity}

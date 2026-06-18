@@ -27,35 +27,35 @@ const MOCK_STATS = {
 const MOCK_RECENT = [
   {
     id: "r1",
-    patient: "عبدالله محمد",
+    patient: "عبد الله موسى",
     time: "10:30 ص",
-    address: "حي النزهة، الرياض",
+    address: "حي كفوري، الخرطوم",
     status: "completed",
-    amount: 180,
+    amount: 18000,
   },
   {
     id: "r2",
-    patient: "فاطمة أحمد",
+    patient: "فاطمة أحمد النور",
     time: "12:00 م",
-    address: "حي العليا، الرياض",
+    address: "حي الديم، أم درمان",
     status: "completed",
-    amount: 180,
+    amount: 18000,
   },
   {
     id: "r3",
-    patient: "محمد الشمري",
+    patient: "محمد إبراهيم",
     time: "02:30 م",
-    address: "حي الملك فهد، الرياض",
+    address: "حي المقرن، الخرطوم",
     status: "active",
-    amount: 180,
+    amount: 18000,
   },
   {
     id: "r4",
-    patient: "نورة السعيدي",
+    patient: "نور الهدى عثمان",
     time: "04:00 م",
-    address: "حي الروضة، الرياض",
+    address: "حي بري، الخرطوم",
     status: "pending",
-    amount: 180,
+    amount: 18000,
   },
 ];
 
@@ -341,7 +341,7 @@ export default function DoctorDashboard() {
     },
     {
       label: "أرباح اليوم",
-      value: MOCK_STATS.todayEarnings + " ر.س",
+      value: MOCK_STATS.todayEarnings.toLocaleString() + " ج.س",
       sub: "4 زيارات مكتملة",
       icon: "dollar-sign",
       color: colors.success,
@@ -357,7 +357,7 @@ export default function DoctorDashboard() {
     },
     {
       label: "أرباح الشهر",
-      value: MOCK_STATS.monthEarnings.toLocaleString() + " ر.س",
+      value: MOCK_STATS.monthEarnings.toLocaleString() + " ج.س",
       sub: "نمو 18% هذا الشهر",
       icon: "award",
       color: "#D97706",
@@ -474,7 +474,7 @@ export default function DoctorDashboard() {
                       { color: colors.mint, fontFamily: "Inter_600SemiBold" },
                     ]}
                   >
-                    {v.amount} ر.س
+                    {v.amount.toLocaleString()} ج.س
                   </Text>
                 </View>
                 <View style={styles.visitInfo}>
