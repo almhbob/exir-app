@@ -27,10 +27,14 @@ const queryClient = new QueryClient();
 
 function RootLayoutNav() {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack screenOptions={{ headerShown: false, animation: "slide_from_left" }}>
       <Stack.Screen name="index" />
+      <Stack.Screen name="login" />
       <Stack.Screen name="onboarding" />
       <Stack.Screen name="join-request" />
+      <Stack.Screen name="settings" />
+      <Stack.Screen name="rate" />
+      <Stack.Screen name="doctor/[id]" />
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="(patient)" />
       <Stack.Screen name="(doctor)" />

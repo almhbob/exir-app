@@ -1,7 +1,10 @@
 import { Feather } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import {
+  Alert,
   FlatList,
   Platform,
   Pressable,
@@ -30,7 +33,7 @@ const STATUS_CONFIG: Record<
 export default function BookingsScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { bookings } = useApp();
+  const { bookings, cancelBooking } = useApp();
   const [filter, setFilter] = useState<TabFilter>("all");
 
   const topPad = Platform.OS === "web" ? 67 : insets.top;
@@ -213,6 +216,44 @@ export default function BookingsScreen() {
       paddingHorizontal: 40,
     },
     space: { height: 100 },
+    actionRow: {
+      flexDirection: "row",
+      gap: 8,
+      marginTop: 12,
+      paddingTop: 12,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+    },
+    cancelBtn: {
+      flex: 1, paddingVertical: 10,
+      borderRadius: 12,
+      borderWidth: 1.5, borderColor: "#EF4444",
+      alignItems: "center",
+    },
+    cancelBtnText: {
+      fontSize: 13, color: "#EF4444",
+      fontFamily: "Inter_700Bold",
+    },
+    rateBtn: {
+      flex: 1, paddingVertical: 10,
+      borderRadius: 12,
+      alignItems: "center", overflow: "hidden",
+    },
+    rateBtnText: {
+      color: "#FFF", fontSize: 13,
+      fontFamily: "Inter_700Bold",
+    },
+    ratedBadge: {
+      flexDirection: "row", alignItems: "center",
+      gap: 5, alignSelf: "flex-end",
+      backgroundColor: "#FEF3C7",
+      paddingHorizontal: 10, paddingVertical: 5,
+      borderRadius: 100, marginTop: 10,
+    },
+    ratedText: {
+      fontSize: 12, color: "#D97706",
+      fontFamily: "Inter_600SemiBold",
+    },
   });
 
   const TABS: { id: TabFilter; label: string }[] = [
@@ -334,6 +375,70 @@ export default function BookingsScreen() {
                   <Feather name="file-text" size={13} color={colors.mutedForeground} />
                 </View>
               ) : null}
+
+              {/* Cancel for pending/confirmed */}
+              {(item.status === "pending" || item.status === "confirmed") && (
+                <View style={styles.actionRow}>
+                  <Pressable
+                    style={styles.cancelBtn}
+                    onPress={() => {
+                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                      Alert.alert(
+                        "إلغاء الحجز",
+                        `هل تريد إلغاء حجزك مع ${item.doctorName}؟`,
+                        [
+                          { text: "تراجع", style: "cancel" },
+                          {
+                            text: "تأكيد الإلغاء",
+                            style: "destructive",
+                            onPress: () => {
+                              cancelBooking(item.id);
+                              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+                            },
+                          },
+                        ]
+                      );
+                    }}
+                  >
+                    <Text style={styles.cancelBtnText}>إلغاء الحجز</Text>
+                  </Pressable>
+                </View>
+              )}
+
+              {/* Rate for completed unrated */}
+              {item.status === "completed" && !item.rated && (
+                <View style={styles.actionRow}>
+                  <Pressable
+                    style={styles.rateBtn}
+                    onPress={() => {
+                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                      router.push({
+                        pathname: "/rate",
+                        params: {
+                          bookingId: item.id,
+                          doctorId: item.doctorId,
+                          doctorName: item.doctorName,
+                        },
+                      });
+                    }}
+                  >
+                    <LinearGradient
+                      colors={["#D97706", "#F59E0B"]}
+                      start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+                      style={[StyleSheet.absoluteFill, { borderRadius: 12 }]}
+                    />
+                    <Text style={styles.rateBtnText}>⭐ قيّم تجربتك</Text>
+                  </Pressable>
+                </View>
+              )}
+
+              {/* Already rated */}
+              {item.status === "completed" && item.rated && (
+                <View style={styles.ratedBadge}>
+                  <Feather name="star" size={12} color="#D97706" />
+                  <Text style={styles.ratedText}>تم التقييم</Text>
+                </View>
+              )}
             </View>
           );
         }}

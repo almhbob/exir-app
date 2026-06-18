@@ -31,6 +31,8 @@ export interface Booking {
   address: string;
   notes: string;
   price: number;
+  rated?: boolean;
+  type?: "home" | "online";
 }
 
 export interface JobListing {
@@ -56,6 +58,17 @@ export interface MedicalResult {
   notes?: string;
 }
 
+export interface Rating {
+  id: string;
+  bookingId: string;
+  doctorId: string;
+  doctorName: string;
+  stars: number;
+  tags: string[];
+  comment: string;
+  createdAt: string;
+}
+
 export interface UserProfile {
   name: string;
   phone: string;
@@ -71,13 +84,20 @@ export interface UserProfile {
 }
 
 interface AppContextType {
+  isLoggedIn: boolean;
   userRole: UserRole;
   userProfile: UserProfile;
   bookings: Booking[];
+  ratings: Rating[];
+  login: (phone: string) => Promise<void>;
+  logout: () => Promise<void>;
   setUserRole: (role: UserRole) => void;
   setUserProfile: (profile: Partial<UserProfile>) => void;
   addBooking: (booking: Booking) => void;
   updateBookingStatus: (id: string, status: Booking["status"]) => void;
+  cancelBooking: (id: string) => Promise<void>;
+  addRating: (rating: Rating) => Promise<void>;
+  markBookingRated: (bookingId: string) => Promise<void>;
   doctors: DoctorProfile[];
   jobs: JobListing[];
   specialties: { id: string; name: string; icon: string; count: number }[];
@@ -103,7 +123,7 @@ const MOCK_DOCTORS: DoctorProfile[] = [
     price: 120,
     available: true,
     distance: "1.2 كم",
-    bio: "طبيب عام متخصص بالرعاية الأولية والأمراض المزمنة. خبرة واسعة في الزيارات المنزلية.",
+    bio: "طبيب عام متخصص بالرعاية الأولية والأمراض المزمنة. خبرة واسعة في الزيارات المنزلية وعلاج الحالات الحادة والمزمنة.",
     languages: ["العربية", "الإنجليزية"],
     certifications: ["بورد طب الأسرة", "شهادة الإسعافات الأولية"],
     avatar: "AK",
@@ -119,7 +139,7 @@ const MOCK_DOCTORS: DoctorProfile[] = [
     price: 150,
     available: true,
     distance: "2.1 كم",
-    bio: "متخصصة في طب الأطفال حديثي الولادة والرضع والأطفال حتى سن 18.",
+    bio: "متخصصة في طب الأطفال حديثي الولادة والرضع والأطفال حتى سن 18. خبرة في الأمراض الشائعة والمتابعة التنموية.",
     languages: ["العربية", "الإنجليزية", "الفرنسية"],
     certifications: ["بورد طب الأطفال", "شهادة الرضاعة الطبيعية"],
     avatar: "SM",
@@ -135,7 +155,7 @@ const MOCK_DOCTORS: DoctorProfile[] = [
     price: 180,
     available: true,
     distance: "3.5 كم",
-    bio: "استشاري أمراض باطنة متخصص بالسكري وأمراض القلب والغدد الصماء.",
+    bio: "استشاري أمراض باطنة متخصص بالسكري وأمراض القلب والغدد الصماء. يقدم خدمة زيارة منزلية شاملة.",
     languages: ["العربية"],
     certifications: ["بورد الباطنة", "زمالة أمراض السكري"],
     avatar: "MR",
@@ -151,7 +171,7 @@ const MOCK_DOCTORS: DoctorProfile[] = [
     price: 160,
     available: false,
     distance: "4.0 كم",
-    bio: "متخصصة بأمراض الجلد والتجميل والشعر والأظافر.",
+    bio: "متخصصة بأمراض الجلد والتجميل والشعر والأظافر. تقدم تشخيصاً دقيقاً وعلاجاً فعالاً للحالات الجلدية.",
     languages: ["العربية", "الإنجليزية"],
     certifications: ["بورد أمراض الجلد", "شهادة الليزر الطبي"],
     avatar: "NA",
@@ -167,7 +187,7 @@ const MOCK_DOCTORS: DoctorProfile[] = [
     price: 200,
     available: true,
     distance: "5.2 كم",
-    bio: "جراح عظام متخصص بإصابات الملاعب والمفاصل الصناعية.",
+    bio: "جراح عظام متخصص بإصابات الملاعب والمفاصل الصناعية وعلاج آلام الظهر.",
     languages: ["العربية", "الإنجليزية"],
     certifications: ["بورد جراحة العظام", "زمالة المفاصل الصناعية"],
     avatar: "KA",
@@ -233,8 +253,7 @@ const MOCK_JOBS: JobListing[] = [
     salary: "800 - 2,500 ر.س / يوم",
     posted: "منذ يومين",
     urgent: true,
-    description:
-      "نبحث عن أطباء عامة للانضمام لمنصة اكسير وتقديم خدمات الزيارات المنزلية.",
+    description: "نبحث عن أطباء عامة للانضمام لمنصة اكسير وتقديم خدمات الزيارات المنزلية.",
   },
   {
     id: "j2",
@@ -246,8 +265,7 @@ const MOCK_JOBS: JobListing[] = [
     salary: "4,500 - 7,000 ر.س / شهر",
     posted: "منذ 3 أيام",
     urgent: true,
-    description:
-      "مطلوب ممرضون/ممرضات مؤهلون لتقديم الرعاية التمريضية المنزلية للمرضى المزمنين.",
+    description: "مطلوب ممرضون/ممرضات مؤهلون لتقديم الرعاية التمريضية المنزلية للمرضى المزمنين.",
   },
   {
     id: "j3",
@@ -259,8 +277,7 @@ const MOCK_JOBS: JobListing[] = [
     salary: "600 - 1,200 ر.س / يوم",
     posted: "منذ 5 أيام",
     urgent: false,
-    description:
-      "فرصة لفنيي المختبرات للعمل بشكل مستقل في أخذ عينات الدم والتحاليل المنزلية.",
+    description: "فرصة لفنيي المختبرات للعمل بشكل مستقل في أخذ عينات الدم والتحاليل المنزلية.",
   },
   {
     id: "j4",
@@ -272,8 +289,7 @@ const MOCK_JOBS: JobListing[] = [
     salary: "1,200 - 3,000 ر.س / يوم",
     posted: "اليوم",
     urgent: true,
-    description:
-      "فرصة ذهبية لأطباء الأطفال للعمل بحرية وتحقيق دخل مرتفع من خلال منصتنا.",
+    description: "فرصة ذهبية لأطباء الأطفال للعمل بحرية وتحقيق دخل مرتفع من خلال منصتنا.",
   },
   {
     id: "j5",
@@ -285,8 +301,7 @@ const MOCK_JOBS: JobListing[] = [
     salary: "5,000 - 9,000 ر.س / شهر",
     posted: "منذ أسبوع",
     urgent: false,
-    description:
-      "نوفر فرص عمل لأخصائيي العلاج الطبيعي لتقديم جلسات منزلية لمرضى التأهيل.",
+    description: "نوفر فرص عمل لأخصائيي العلاج الطبيعي لتقديم جلسات منزلية لمرضى التأهيل.",
   },
   {
     id: "j6",
@@ -298,8 +313,7 @@ const MOCK_JOBS: JobListing[] = [
     salary: "6,000 - 9,500 ر.س / شهر",
     posted: "منذ 4 أيام",
     urgent: false,
-    description:
-      "صيدلانيون لإدارة الوصفات الطبية وضمان سلامة توصيل الأدوية للمرضى منزلياً.",
+    description: "صيدلانيون لإدارة الوصفات الطبية وضمان سلامة توصيل الأدوية للمرضى منزلياً.",
   },
   {
     id: "j7",
@@ -311,8 +325,7 @@ const MOCK_JOBS: JobListing[] = [
     salary: "1,800 - 4,500 ر.س / يوم",
     posted: "منذ يوم",
     urgent: true,
-    description:
-      "خدمة طبية طارئة منزلية تعمل على مدار الساعة. نحتاج أطباء طوارئ متمرسين.",
+    description: "خدمة طبية طارئة منزلية تعمل على مدار الساعة. نحتاج أطباء طوارئ متمرسين.",
   },
   {
     id: "j8",
@@ -324,8 +337,7 @@ const MOCK_JOBS: JobListing[] = [
     salary: "700 - 1,500 ر.س / جلسة",
     posted: "منذ 6 أيام",
     urgent: false,
-    description:
-      "فرصة لمعالجين نفسيين ومرشدين أسريين لتقديم جلسات منزلية وعبر الفيديو.",
+    description: "فرصة لمعالجين نفسيين ومرشدين أسريين لتقديم جلسات منزلية وعبر الفيديو.",
   },
 ];
 
@@ -341,23 +353,31 @@ const SPECIALTIES = [
 ];
 
 const AppContext = createContext<AppContextType>({
+  isLoggedIn: false,
   userRole: null,
   userProfile: defaultProfile,
   bookings: [],
+  ratings: [],
+  login: async () => {},
+  logout: async () => {},
   setUserRole: () => {},
   setUserProfile: () => {},
   addBooking: () => {},
   updateBookingStatus: () => {},
+  cancelBooking: async () => {},
+  addRating: async () => {},
+  markBookingRated: async () => {},
   doctors: MOCK_DOCTORS,
   jobs: MOCK_JOBS,
   specialties: SPECIALTIES,
 });
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRoleState] = useState<UserRole>(null);
-  const [userProfile, setUserProfileState] =
-    useState<UserProfile>(defaultProfile);
+  const [userProfile, setUserProfileState] = useState<UserProfile>(defaultProfile);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [ratings, setRatings] = useState<Rating[]>([]);
 
   useEffect(() => {
     loadData();
@@ -365,15 +385,45 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   async function loadData() {
     try {
-      const [roleData, profileData, bookingsData] = await Promise.all([
-        AsyncStorage.getItem("userRole"),
-        AsyncStorage.getItem("userProfile"),
-        AsyncStorage.getItem("bookings"),
-      ]);
+      const [loggedInData, roleData, profileData, bookingsData, ratingsData] =
+        await Promise.all([
+          AsyncStorage.getItem("isLoggedIn"),
+          AsyncStorage.getItem("userRole"),
+          AsyncStorage.getItem("userProfile"),
+          AsyncStorage.getItem("bookings"),
+          AsyncStorage.getItem("ratings"),
+        ]);
+      if (loggedInData === "true") setIsLoggedIn(true);
       if (roleData) setUserRoleState(roleData as UserRole);
       if (profileData) setUserProfileState(JSON.parse(profileData));
       if (bookingsData) setBookings(JSON.parse(bookingsData));
+      if (ratingsData) setRatings(JSON.parse(ratingsData));
     } catch {}
+  }
+
+  async function login(phone: string) {
+    setIsLoggedIn(true);
+    const updated = { ...userProfile, phone };
+    setUserProfileState(updated);
+    await Promise.all([
+      AsyncStorage.setItem("isLoggedIn", "true"),
+      AsyncStorage.setItem("userProfile", JSON.stringify(updated)),
+    ]);
+  }
+
+  async function logout() {
+    setIsLoggedIn(false);
+    setUserRoleState(null);
+    setUserProfileState(defaultProfile);
+    setBookings([]);
+    setRatings([]);
+    await AsyncStorage.multiRemove([
+      "isLoggedIn",
+      "userRole",
+      "userProfile",
+      "bookings",
+      "ratings",
+    ]);
   }
 
   async function setUserRole(role: UserRole) {
@@ -403,16 +453,45 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     await AsyncStorage.setItem("bookings", JSON.stringify(updated));
   }
 
+  async function cancelBooking(id: string) {
+    const updated = bookings.map((b) =>
+      b.id === id ? { ...b, status: "cancelled" as const } : b
+    );
+    setBookings(updated);
+    await AsyncStorage.setItem("bookings", JSON.stringify(updated));
+  }
+
+  async function addRating(rating: Rating) {
+    const updated = [rating, ...ratings];
+    setRatings(updated);
+    await AsyncStorage.setItem("ratings", JSON.stringify(updated));
+  }
+
+  async function markBookingRated(bookingId: string) {
+    const updated = bookings.map((b) =>
+      b.id === bookingId ? { ...b, rated: true } : b
+    );
+    setBookings(updated);
+    await AsyncStorage.setItem("bookings", JSON.stringify(updated));
+  }
+
   return (
     <AppContext.Provider
       value={{
+        isLoggedIn,
         userRole,
         userProfile,
         bookings,
+        ratings,
+        login,
+        logout,
         setUserRole,
         setUserProfile,
         addBooking,
         updateBookingStatus,
+        cancelBooking,
+        addRating,
+        markBookingRated,
         doctors: MOCK_DOCTORS,
         jobs: MOCK_JOBS,
         specialties: SPECIALTIES,

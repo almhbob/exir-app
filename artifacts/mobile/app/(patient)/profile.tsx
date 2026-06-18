@@ -26,7 +26,7 @@ const BLOOD_TYPES = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 export default function PatientProfile() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { userProfile, setUserProfile, setUserRole, bookings } = useApp();
+  const { userProfile, setUserProfile, logout, bookings } = useApp();
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(userProfile.name);
   const [phone, setPhone] = useState(userProfile.phone);
@@ -67,15 +67,15 @@ export default function PatientProfile() {
     }
   }
 
-  function handleLogout() {
+  async function handleLogout() {
     Alert.alert("تسجيل الخروج", "هل تريد تسجيل الخروج وتغيير نوع الحساب؟", [
       { text: "إلغاء", style: "cancel" },
       {
         text: "خروج",
         style: "destructive",
         onPress: async () => {
-          await setUserRole(null);
-          router.replace("/onboarding");
+          await logout();
+          router.replace("/login");
         },
       },
     ]);
@@ -476,9 +476,9 @@ export default function PatientProfile() {
           <Text style={styles.sectionTitle}>الخدمات</Text>
           {[
             { icon: "file-text", label: "سجلاتي الطبية", color: "#7C3AED", route: "/(patient)/records" },
-            { icon: "package", label: "طلبات الدواء", color: "#059669" },
+            { icon: "settings", label: "الإعدادات", color: "#259CF4", route: "/settings" },
             { icon: "star", label: "تقييماتي", color: "#D97706" },
-            { icon: "headphones", label: "الدعم والمساعدة", color: "#259CF4" },
+            { icon: "headphones", label: "الدعم والمساعدة", color: "#059669" },
           ].map((item) => (
             <Pressable
               key={item.label}

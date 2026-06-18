@@ -506,7 +506,7 @@ export default function PatientHome() {
                 style={styles.doctorCard}
                 onPress={() => {
                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                  router.push("/(patient)/doctors");
+                  router.push({ pathname: "/doctor/[id]", params: { id: item.id } });
                 }}
               >
                 <View style={styles.doctorAvatar}>
