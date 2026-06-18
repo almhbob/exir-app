@@ -20,6 +20,10 @@ function NativePatientTabs() {
         <Icon sf={{ default: "stethoscope", selected: "stethoscope" }} />
         <Label>الأطباء</Label>
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="online">
+        <Icon sf={{ default: "video", selected: "video.fill" }} />
+        <Label>أونلاين</Label>
+      </NativeTabs.Trigger>
       <NativeTabs.Trigger name="bookings">
         <Icon sf={{ default: "calendar", selected: "calendar.fill" }} />
         <Label>حجوزاتي</Label>
@@ -94,6 +98,18 @@ function ClassicPatientTabs() {
               <SymbolView name="stethoscope" tintColor={color} size={22} />
             ) : (
               <Feather name="users" size={21} color={color} />
+            ),
+        }}
+      />
+      <Tabs.Screen
+        name="online"
+        options={{
+          title: "أونلاين",
+          tabBarIcon: ({ color }) =>
+            isIOS ? (
+              <SymbolView name="video" tintColor={color} size={22} />
+            ) : (
+              <Feather name="video" size={21} color={color} />
             ),
         }}
       />

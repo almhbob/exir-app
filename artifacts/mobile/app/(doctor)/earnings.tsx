@@ -344,6 +344,137 @@ export default function EarningsScreen() {
       textAlign: "right",
     },
     space: { height: 100 },
+
+    // ── Revenue Model ──
+    revenueSection: {
+      marginHorizontal: 16,
+      marginTop: 16,
+      marginBottom: 4,
+    },
+    revenueTitleRow: {
+      alignItems: "flex-end",
+      marginBottom: 14,
+    },
+    revenueTitleBadge: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 5,
+      backgroundColor: "#F5F3FF",
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+      borderRadius: 100,
+      marginBottom: 6,
+      alignSelf: "flex-end",
+    },
+    revenueTitleBadgeText: {
+      fontSize: 12,
+      color: "#7C3AED",
+      fontFamily: "Inter_600SemiBold",
+    },
+    revenueHeading: {
+      fontSize: 18,
+      fontWeight: "700",
+      color: colors.foreground,
+      fontFamily: "Inter_700Bold",
+      textAlign: "right",
+    },
+    revenueCard: {
+      backgroundColor: colors.card,
+      borderRadius: colors.radius + 4,
+      padding: 16,
+      marginBottom: 10,
+      borderLeftWidth: 4,
+      shadowColor: "#003F6D",
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.07,
+      shadowRadius: 10,
+      elevation: 3,
+    },
+    revenueCardTop: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      marginBottom: 12,
+    },
+    revenueCardMeta: { alignItems: "flex-end", flex: 1 },
+    revenueCardType: {
+      fontSize: 15,
+      fontWeight: "700",
+      color: colors.foreground,
+      fontFamily: "Inter_700Bold",
+      textAlign: "right",
+    },
+    revenueCardSub: {
+      fontSize: 12,
+      color: colors.mutedForeground,
+      fontFamily: "Inter_400Regular",
+      marginTop: 2,
+    },
+    revenueCardIcon: {
+      width: 42,
+      height: 42,
+      borderRadius: 12,
+      alignItems: "center",
+      justifyContent: "center",
+      marginLeft: 10,
+    },
+    progressTrack: {
+      height: 8,
+      backgroundColor: colors.muted,
+      borderRadius: 4,
+      marginBottom: 12,
+      overflow: "hidden",
+    },
+    progressFill: {
+      height: 8,
+      borderRadius: 4,
+    },
+    revenueCardBottom: {
+      flexDirection: "row",
+      gap: 8,
+      justifyContent: "flex-end",
+    },
+    revenueChip: {
+      flex: 1,
+      backgroundColor: colors.muted,
+      borderRadius: 10,
+      padding: 10,
+      alignItems: "center",
+      gap: 2,
+    },
+    revenueChipPct: {
+      fontSize: 18,
+      fontWeight: "700",
+      color: colors.foreground,
+      fontFamily: "Inter_700Bold",
+    },
+    revenueChipLabel: {
+      fontSize: 11,
+      color: colors.mutedForeground,
+      fontFamily: "Inter_400Regular",
+    },
+    revenueChipAmt: {
+      fontSize: 12,
+      color: colors.mutedForeground,
+      fontFamily: "Inter_600SemiBold",
+    },
+    revenueNote: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 6,
+      backgroundColor: colors.accentLight,
+      borderRadius: 10,
+      padding: 12,
+      marginTop: 4,
+      justifyContent: "flex-end",
+    },
+    revenueNoteText: {
+      fontSize: 12,
+      color: colors.dark,
+      fontFamily: "Inter_400Regular",
+      textAlign: "right",
+      flex: 1,
+    },
   });
 
   const totalMonth = MONTH_EARNINGS[MONTH_EARNINGS.length - 1];
@@ -424,6 +555,94 @@ export default function EarningsScreen() {
               </View>
             </View>
           </LinearGradient>
+
+          {/* Revenue Model */}
+          <View style={styles.revenueSection}>
+            <View style={styles.revenueTitleRow}>
+              <View style={styles.revenueTitleBadge}>
+                <Feather name="pie-chart" size={14} color="#7C3AED" />
+                <Text style={styles.revenueTitleBadgeText}>نموذج العائد</Text>
+              </View>
+              <Text style={styles.revenueHeading}>كيف توزَّع أرباحك؟</Text>
+            </View>
+
+            {/* Visit types breakdown */}
+            {[
+              {
+                type: "زيارة منزلية",
+                icon: "home",
+                doctorPct: 80,
+                platformPct: 20,
+                exampleTotal: 180,
+                color: "#259CF4",
+                bg: "#EFF9FF",
+              },
+              {
+                type: "استشارة أونلاين",
+                icon: "video",
+                doctorPct: 85,
+                platformPct: 15,
+                exampleTotal: 120,
+                color: "#7C3AED",
+                bg: "#F5F3FF",
+              },
+              {
+                type: "زيارة طارئة",
+                icon: "alert-circle",
+                doctorPct: 75,
+                platformPct: 25,
+                exampleTotal: 280,
+                color: "#EF4444",
+                bg: "#FEF2F2",
+              },
+            ].map((row) => (
+              <View key={row.type} style={[styles.revenueCard, { borderLeftColor: row.color }]}>
+                <View style={styles.revenueCardTop}>
+                  <View style={styles.revenueCardMeta}>
+                    <Text style={styles.revenueCardSub}>مثال: {row.exampleTotal} ر.س الرسوم</Text>
+                    <Text style={styles.revenueCardType}>{row.type}</Text>
+                  </View>
+                  <View style={[styles.revenueCardIcon, { backgroundColor: row.bg }]}>
+                    <Feather name={row.icon as any} size={18} color={row.color} />
+                  </View>
+                </View>
+
+                {/* Progress bar */}
+                <View style={styles.progressTrack}>
+                  <View
+                    style={[
+                      styles.progressFill,
+                      { width: `${row.doctorPct}%` as any, backgroundColor: row.color },
+                    ]}
+                  />
+                </View>
+
+                <View style={styles.revenueCardBottom}>
+                  <View style={styles.revenueChip}>
+                    <Text style={styles.revenueChipPct}>{row.platformPct}%</Text>
+                    <Text style={styles.revenueChipLabel}>المنصة</Text>
+                    <Text style={styles.revenueChipAmt}>
+                      {Math.round(row.exampleTotal * row.platformPct / 100)} ر.س
+                    </Text>
+                  </View>
+                  <View style={[styles.revenueChip, { backgroundColor: row.bg }]}>
+                    <Text style={[styles.revenueChipPct, { color: row.color }]}>{row.doctorPct}%</Text>
+                    <Text style={styles.revenueChipLabel}>نصيبك</Text>
+                    <Text style={[styles.revenueChipAmt, { color: row.color, fontFamily: "Inter_700Bold" }]}>
+                      {Math.round(row.exampleTotal * row.doctorPct / 100)} ر.س
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            ))}
+
+            <View style={styles.revenueNote}>
+              <Feather name="info" size={13} color={colors.mutedForeground} />
+              <Text style={styles.revenueNoteText}>
+                يتم تحويل نصيبك مباشرة في نهاية كل يوم عمل — بدون تأخير
+              </Text>
+            </View>
+          </View>
 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>الأرباح الشهرية</Text>
