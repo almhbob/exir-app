@@ -17,6 +17,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/context/AppContext";
 import { useColors } from "@/hooks/useColors";
+import { demoLogin as remoteDemoLogin, isRemoteApiEnabled } from "@/lib/api";
 
 const MOCK_OTP = "1234";
 
@@ -24,6 +25,7 @@ export default function LoginScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { login, userRole } = useApp();
+  const remoteApiEnabled = isRemoteApiEnabled();
 
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [phone, setPhone] = useState("");
@@ -71,21 +73,39 @@ export default function LoginScreen() {
   }
 
   async function verifyOtp(code: string) {
+    if (loading) return;
+
     if (code !== MOCK_OTP) {
-      setError("رمز التحقق غير صحيح. استخدم: " + MOCK_OTP);
+      setError("رمز التحقق غير صحيح");
       setOtp(["", "", "", ""]);
       otpRefs[0].current?.focus();
       return;
     }
+
     setError("");
     setLoading(true);
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    await login(phone);
-    setLoading(false);
-    if (userRole) {
-      router.replace(userRole === "patient" ? "/(patient)/home" : "/(doctor)/dashboard");
-    } else {
-      router.replace("/onboarding");
+
+    try {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      if (remoteApiEnabled) {
+        const { user } = await remoteDemoLogin(phone);
+        await login(user.phone);
+      } else {
+        await login(phone);
+      }
+
+      if (userRole) {
+        router.replace(userRole === "patient" ? "/(patient)/home" : "/(doctor)/dashboard");
+      } else {
+        router.replace("/onboarding");
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "تعذر تسجيل الدخول حالياً";
+      setError(message);
+      setOtp(["", "", "", ""]);
+      otpRefs[0].current?.focus();
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -161,7 +181,6 @@ export default function LoginScreen() {
     },
     hintHighlight: { color: colors.primary, fontFamily: "Inter_700Bold" },
 
-    // OTP
     otpTitle: {
       fontSize: 18, fontWeight: "700",
       color: colors.foreground, fontFamily: "Inter_700Bold",
@@ -245,7 +264,7 @@ export default function LoginScreen() {
         style={styles.gradient}
       >
         {step === "otp" && (
-          <Pressable style={styles.backBtn} onPress={() => { setStep("phone"); setOtp(["","","",""]); setError(""); }}>
+          <Pressable style={styles.backBtn} onPress={() => { setStep("phone"); setOtp(["", "", "", ""]); setError(""); }}>
             <Feather name="arrow-right" size={20} color="#FFF" />
           </Pressable>
         )}
@@ -287,12 +306,12 @@ export default function LoginScreen() {
                 />
               </View>
               <Text style={styles.hint}>
-                رمز التحقق التجريبي: <Text style={styles.hintHighlight}>1234</Text>
+                رمز التحقق التجريبي: <Text style={styles.hintHighlight}>{MOCK_OTP}</Text>
               </Text>
 
               {!!error && <Text style={styles.error}>{error}</Text>}
 
-              <Pressable style={styles.btn} onPress={handlePhoneSubmit}>
+              <Pressable style={styles.btn} onPress={handlePhoneSubmit} disabled={loading}>
                 <LinearGradient
                   colors={["#0E4D62", "#1A7066", "#1E8070"]}
                   start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
@@ -309,9 +328,22 @@ export default function LoginScreen() {
 
               <Pressable
                 style={styles.guestBtn}
+                disabled={loading}
                 onPress={async () => {
-                  await login("0500000000");
-                  router.replace("/onboarding");
+                  try {
+                    setLoading(true);
+                    if (remoteApiEnabled) {
+                      const { user } = await remoteDemoLogin("0500000000", "زائر إكسير");
+                      await login(user.phone);
+                    } else {
+                      await login("0500000000");
+                    }
+                    router.replace("/onboarding");
+                  } catch (err) {
+                    setError(err instanceof Error ? err.message : "تعذر الدخول كزائر");
+                  } finally {
+                    setLoading(false);
+                  }
                 }}
               >
                 <Text style={styles.guestText}>تصفح كزائر</Text>
@@ -340,15 +372,13 @@ export default function LoginScreen() {
               </View>
 
               <Text style={styles.otpHint}>
-                للتجربة: <Text style={styles.otpHintBold}>1234</Text>
+                للتجربة: <Text style={styles.otpHintBold}>{MOCK_OTP}</Text>
               </Text>
 
               {!!error && <Text style={styles.error}>{error}</Text>}
 
               {loading && (
-                <Text style={[styles.otpSub, { textAlign: "center" }]}>
-                  جارٍ التحقق...
-                </Text>
+                <Text style={[styles.otpSub, { textAlign: "center" }]}>جارٍ التحقق...</Text>
               )}
 
               <View style={styles.resend}>
