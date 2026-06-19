@@ -52,7 +52,7 @@ router.post("/auth/demo-login", async (req, res) => {
     ? req.body.role
     : "patient";
 
-  const result = await pool.query<UserRow>(
+  const result = await pool.query(
     `insert into users (phone, full_name, role, status, is_phone_verified)
      values ($1, $2, $3, 'active', true)
      on conflict (phone) do update set
@@ -65,7 +65,7 @@ router.post("/auth/demo-login", async (req, res) => {
     [phone, fullName, role],
   );
 
-  const row = result.rows[0];
+  const row = result.rows[0] as UserRow | undefined;
   if (!row) throw new ApiError(500, "Could not create user");
 
   res.json({ user: mapUser(row) });
