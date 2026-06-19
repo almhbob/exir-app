@@ -33,13 +33,13 @@ function mapUser(row: UserRow) {
 
 router.get("/users/me", async (req, res) => {
   const userId = requireUserId(req);
-  const result = await pool.query<UserRow>(
+  const result = await pool.query(
     `select id, phone, email, full_name, role, status, is_phone_verified, created_at, updated_at
      from users where id = $1 limit 1`,
     [userId],
   );
 
-  const row = result.rows[0];
+  const row = result.rows[0] as UserRow | undefined;
   if (!row) throw new ApiError(404, "User not found");
 
   res.json({ user: mapUser(row) });
