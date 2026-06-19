@@ -1,8 +1,8 @@
 import { Router, type IRouter } from "express";
 import { pool } from "@workspace/db";
 
+import { requireActiveUser } from "../lib/current-user";
 import {
-  ApiError,
   optionalInt,
   optionalString,
   requireString,
@@ -10,14 +10,6 @@ import {
 } from "../lib/request";
 
 const router: IRouter = Router();
-
-async function requireActiveUser(userId: string): Promise<void> {
-  const result = await pool.query("select status from users where id = $1 limit 1", [userId]);
-  const row = result.rows[0] as { status?: string } | undefined;
-
-  if (!row) throw new ApiError(404, "User not found");
-  if (row.status !== "active") throw new ApiError(403, "User is not active");
-}
 
 router.post("/bookings", async (req, res) => {
   const userId = requireUserId(req);
