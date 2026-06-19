@@ -39,11 +39,12 @@
 - `GET /api/users/me`
 - `POST /api/provider-applications`
 - `GET /api/provider-applications`
+- `GET /api/provider-applications/review/pending`
 - `PATCH /api/provider-applications/:id/review`
 - `POST /api/bookings`
 - `GET /api/bookings`
 
-مسار مراجعة طلبات الأطباء يتطلب مستخدمًا نشطًا بدور `admin`. عند قبول الطلب يتم تحويل دور مقدم الخدمة إلى `doctor` وإنشاء ملف provider profile تلقائيًا.
+مسارات مراجعة طلبات الأطباء تتطلب مستخدمًا نشطًا بدور `admin`. عند قبول الطلب يتم تنفيذ التحديث داخل transaction، ثم تحويل دور مقدم الخدمة إلى `doctor` وإنشاء ملف provider profile تلقائيًا.
 
 المسارات الخاصة بالمستخدم تستخدم رأسًا مؤقتًا للتطوير باسم `x-user-id`. هذا ليس مناسبًا للإنتاج ويجب استبداله بمصادقة حقيقية.
 
