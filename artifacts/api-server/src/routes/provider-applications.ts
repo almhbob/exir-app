@@ -10,15 +10,30 @@ import {
 
 const router: IRouter = Router();
 
+type RawDocument = {
+  name?: unknown;
+  url?: unknown;
+  publicId?: unknown;
+  uploadedAt?: unknown;
+};
+
+function asRawDocument(value: unknown): RawDocument {
+  return value && typeof value === "object" ? (value as RawDocument) : {};
+}
+
 function parseDocuments(value: unknown): unknown[] {
-  if (value == null) return [];
   if (!Array.isArray(value)) return [];
-  return value.map((item) => ({
-    name: typeof item?.name === "string" ? item.name : "document",
-    url: typeof item?.url === "string" ? item.url : "",
-    publicId: typeof item?.publicId === "string" ? item.publicId : "",
-    uploadedAt: typeof item?.uploadedAt === "string" ? item.uploadedAt : new Date().toISOString(),
-  }));
+
+  return value.map((item) => {
+    const doc = asRawDocument(item);
+    return {
+      name: typeof doc.name === "string" ? doc.name : "document",
+      url: typeof doc.url === "string" ? doc.url : "",
+      publicId: typeof doc.publicId === "string" ? doc.publicId : "",
+      uploadedAt:
+        typeof doc.uploadedAt === "string" ? doc.uploadedAt : new Date().toISOString(),
+    };
+  });
 }
 
 router.post("/provider-applications", async (req, res) => {
