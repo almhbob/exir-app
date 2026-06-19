@@ -1,45 +1,52 @@
 # إكسير — Exir App
 
-تطبيق Expo/React Native لمنصة رعاية صحية منزلية واستشارات أونلاين. المستودع مبني كـ PNPM workspace ويحتوي على تطبيق الموبايل، مكتبات API client، ومكتبة قاعدة بيانات PostgreSQL باستخدام Drizzle.
+تطبيق Expo/React Native لمنصة رعاية صحية منزلية واستشارات أونلاين. المستودع مبني كـ PNPM workspace ويحتوي على تطبيق الموبايل، API Server، مكتبات API client، ومكتبة قاعدة بيانات PostgreSQL باستخدام Drizzle.
 
 ## حالة المشروع الحالية
 
-المشروع في مرحلة MVP تجريبي. الواجهة الأساسية موجودة، لكن التشغيل التجاري يتطلب Backend كامل، مصادقة حقيقية، صلاحيات آمنة، بوابة دفع، وإجراءات قانونية/تشغيلية قبل الإطلاق.
+المشروع في مرحلة MVP تجريبي. الواجهة الأساسية موجودة، وتمت إضافة Backend أولي داخل `artifacts/api-server` لمسارات المستخدمين، طلبات انضمام مقدمي الخدمة، والحجوزات. التشغيل التجاري لا يزال يتطلب مصادقة حقيقية، صلاحيات متقدمة، لوحة إدارة، بوابة دفع، وإجراءات قانونية/تشغيلية قبل الإطلاق.
 
 ## البنية
 
-```text
-artifacts/mobile          تطبيق Expo
-lib/api-client-react      عميل API مولد للاستخدام داخل React Query
-lib/api-zod               مخططات Zod مولدة من OpenAPI
-lib/db                    اتصال PostgreSQL ومخططات Drizzle
-scripts                   سكربتات تشغيل وصيانة workspace
-```
+- `artifacts/mobile`: تطبيق Expo.
+- `artifacts/api-server`: Backend Express API.
+- `lib/api-client-react`: عميل API مولد للاستخدام داخل React Query.
+- `lib/api-zod`: مخططات Zod مولدة من OpenAPI.
+- `lib/db`: اتصال PostgreSQL ومخططات Drizzle.
+- `scripts`: سكربتات تشغيل وصيانة workspace.
 
 ## المتطلبات
 
 - Node.js 24
 - pnpm
-- PostgreSQL عند تشغيل قاعدة البيانات
+- PostgreSQL عند تشغيل قاعدة البيانات والـ API
 - Expo CLI عبر حزمة تطبيق الموبايل
 
 ## التشغيل المحلي
 
-```bash
-pnpm install
-pnpm run typecheck
-pnpm --filter @workspace/mobile run dev
-```
+1. ثبّت الحزم عبر pnpm.
+2. اضبط `DATABASE_URL` و `PORT`.
+3. شغل Drizzle push لحزمة `@workspace/db`.
+4. شغل API server من حزمة `@workspace/api-server`.
+5. شغل تطبيق الموبايل من حزمة `@workspace/mobile`.
+
+## API Server
+
+المسارات الحالية داخل `artifacts/api-server`:
+
+- `GET /api/healthz`
+- `POST /api/auth/demo-login`
+- `GET /api/users/me`
+- `POST /api/provider-applications`
+- `GET /api/provider-applications`
+- `POST /api/bookings`
+- `GET /api/bookings`
+
+المسارات الخاصة بالمستخدم تستخدم رأسًا مؤقتًا للتطوير باسم `x-user-id`. هذا ليس مناسبًا للإنتاج ويجب استبداله بمصادقة حقيقية.
 
 ## قاعدة البيانات
 
-يجب ضبط `DATABASE_URL` قبل تشغيل أوامر Drizzle:
-
-```bash
-DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DB_NAME pnpm --filter @workspace/db run push
-```
-
-تمت إضافة مخططات أساسية لـ:
+يجب ضبط `DATABASE_URL` قبل تشغيل أوامر Drizzle أو API Server. تمت إضافة مخططات أساسية لـ:
 
 - المستخدمين وأدوارهم
 - ملفات المرضى
@@ -47,15 +54,14 @@ DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DB_NAME pnpm --filter @workspa
 - ملفات مقدمي الخدمة المعتمدين
 - الحجوزات
 
-## المتغيرات البيئية
+## ربط تطبيق الموبايل بالـ API
 
-انسخ `.env.example` واضبط القيم المناسبة في بيئة التطوير أو Replit/EAS.
-
-القيم العامة التي تبدأ بـ `EXPO_PUBLIC_` ستظهر داخل حزمة التطبيق، لذلك لا تضع فيها أسرارًا حقيقية.
+تمت إضافة جسر API داخل `artifacts/mobile/lib/api.ts`. يمكن تفعيل الربط التدريجي عبر `EXPO_PUBLIC_USE_REMOTE_API=true` وضبط `EXPO_PUBLIC_API_URL`.
 
 ## ملاحظات أمان مهمة
 
-- لا تستخدم OTP تجريبيًا في الإنتاج.
+- لا تستخدم demo login في الإنتاج.
+- لا تستخدم `x-user-id` كحماية إنتاجية.
 - لا تقبل الطبيب تلقائيًا قبل مراجعة المستندات من Backend أو لوحة إدارة.
 - لا تحفظ الملفات الطبية الحساسة كرابط عام دون صلاحيات وصول.
 - يفضل أن يتم رفع المستندات عبر Backend موقّع بدل الاعتماد على unsigned upload preset من التطبيق.
@@ -63,13 +69,13 @@ DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DB_NAME pnpm --filter @workspa
 
 ## فحوصات CI
 
-تمت إضافة GitHub Actions لتشغيل `pnpm install --frozen-lockfile` ثم `pnpm run typecheck` عند الدفع إلى `main` أو فتح Pull Request.
+تمت إضافة GitHub Actions لتشغيل تثبيت الحزم ثم `pnpm run typecheck` عند الدفع إلى `main` أو فتح Pull Request.
 
 ## المرحلة التالية المقترحة
 
-1. بناء Backend فعلي للحسابات والأطباء والحجوزات.
-2. استبدال OTP التجريبي بمصادقة حقيقية.
+1. استبدال demo auth بمصادقة حقيقية.
+2. ربط `AppContext` تدريجيًا بمسارات الـ API بدل البيانات المحلية.
 3. إنشاء لوحة إدارة لمراجعة طلبات انضمام الأطباء.
 4. إضافة إشعارات للحجوزات.
 5. إضافة نظام دفع وسجل معاملات.
-6. ربط التطبيق بواجهات API بدل البيانات الوهمية داخل `AppContext`.
+6. إضافة ملفات طبية وتقييمات بصلاحيات وصول واضحة.
