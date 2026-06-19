@@ -17,6 +17,27 @@ function parseReviewStatus(value: unknown): "approved" | "rejected" {
   throw new ApiError(400, "status must be approved or rejected");
 }
 
+router.get("/provider-applications/review/pending", async (req, res) => {
+  const reviewerId = requireUserId(req);
+  const reviewer = await requireActiveUser(reviewerId);
+  requireAdmin(reviewer.role);
+
+  const result = await pool.query(
+    `select
+       a.*,
+       u.full_name as applicant_full_name,
+       u.phone as applicant_phone,
+       u.email as applicant_email
+     from provider_applications a
+     join users u on u.id = a.user_id
+     where a.status = 'pending_review'
+     order by a.submitted_at asc
+     limit 100`,
+  );
+
+  res.json({ applications: result.rows });
+});
+
 router.patch("/provider-applications/:id/review", async (req, res) => {
   const reviewerId = requireUserId(req);
   const reviewer = await requireActiveUser(reviewerId);
